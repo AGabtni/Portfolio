@@ -1,11 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-
+import NavBar from './components/NavBar/NavBar'
 function App() {
   return (
     <div className="App">
+      
       <header className="App-header">
+        <NavBar />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
