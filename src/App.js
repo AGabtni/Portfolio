@@ -1,6 +1,25 @@
 import React from 'react';
 import './App.css';
 import NavBar from './components/NavBar/NavBar'
+import { EffectComposer, RenderPass, GlitchPass } from "postprocessing";import * as THREE from "three";
+
+
+
+var scene = new THREE.Scene();
+var renderer;
+var composer ;
+function init(){
+  renderer = new THREE.WebGLRenderer();
+  renderer.setPixelRatio( window.devicePixelRatio );
+  renderer.setSize( window.innerWidth, window.innerHeight );
+  document.body.appendChild( renderer.domElement );
+  composer = new EffectComposer(renderer);
+
+
+}
+
+init();
+
 function App() {
   return (
     <div className="App">
