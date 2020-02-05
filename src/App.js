@@ -7,8 +7,10 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass"
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass"
+import { FilmPass } from "three/examples/jsm/postprocessing/FilmPass"
 
 import { DotScreenShader } from "three/examples/jsm/shaders/DotScreenShader"
+import { GammaCorrectionShader  } from "three/examples/jsm/shaders/GammaCorrectionShader"
 
 var scene = new THREE.Scene();
 let renderer;
@@ -18,7 +20,7 @@ let object
 let light
 var params = {
   exposure: 1,
-  bloomStrength: 1.5,
+  bloomStrength: 1,
   bloomThreshold: 0,
   bloomRadius: 0
 };
@@ -51,10 +53,39 @@ function init() {
 
   var geometry = new THREE.SphereBufferGeometry(1, 4, 4);
   var material = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true });
+  var mat = new THREE.ShaderMaterial( {
+
+    uniforms: {},
+
+    vertexShader: [
+      "varying vec2 vUV;",
+      "varying vec3 vNormal;",
+
+      "void main() {",
+
+      "vUV = uv;",
+      "vNormal = vec3( normal );",
+      "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
+
+      "}"
+    ].join( "\n" ),
+
+    fragmentShader: [
+      "varying vec2 vUV;",
+      "varying vec3 vNormal;",
+
+      "void main() {",
+
+      "vec4 c = vec4( abs( vNormal ) + vec3( vUV, 0.0 ), 0.0 );",
+      "gl_FragColor = c;",
+
+      "}"
+    ].join( "\n" )
+  } );
 
   for (var i = 0; i < 100; i++) {
 
-    var mesh = new THREE.Mesh(geometry, material);
+    var mesh = new THREE.Mesh(geometry, mat);
     mesh.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
     mesh.position.multiplyScalar(Math.random() * 400);
     mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
@@ -67,7 +98,6 @@ function init() {
   light = new THREE.DirectionalLight(0xffffff);
   light.position.set(1, 1, 1);
   scene.add(light);
-  console.log("grgnr")
 
 
 
@@ -80,7 +110,6 @@ function init() {
 
   var effect = new ShaderPass(DotScreenShader);
   effect.uniforms['scale'].value = 4;
-  composer.addPass(effect);
 
   //Unreal bloom effect : 
 
@@ -90,6 +119,14 @@ function init() {
   bloomPass.radius = params.bloomRadius;
   composer.addPass( bloomPass );
 
+
+
+  //Film effect : 
+
+  var effectFilmBW = new FilmPass( 0.35, 0.5, 2048, true );
+  var gammaCorrection = new ShaderPass( GammaCorrectionShader );
+  composer.addPass(effectFilmBW);
+  composer.addPass(gammaCorrection)
   window.addEventListener('resize', onWindowResize, false);
   animate()
 
