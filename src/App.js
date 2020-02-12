@@ -168,9 +168,7 @@ function App() {
   return (
     <div className="App">
 
-     
-      class="overlay"
-      efefefwefwefewf
+      <NavBar></NavBar>
     </div>
   );
 }
