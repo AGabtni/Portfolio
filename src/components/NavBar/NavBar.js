@@ -1,26 +1,48 @@
 import React from 'react';
-import { AppBar, Toolbar, makeStyles  } from '@material-ui/core';
-import logo from '../../logo.svg';
+import Radium, {StyleRoot} from 'radium';
+import { AppBar, Toolbar, makeStyles, Theme } from '@material-ui/core';
+import { flash  } from 'react-animations'
 import './NavBar.css';
+
 const useStyles = makeStyles(theme => ({
-    root: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-    },
+  navbar: {
+    flexGrow: 1,
+    
+  },
+  bar:{
+    backgroundColor : 'rgba(0,0,0,0.5)'
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+
 }));
 
 
-class NavBar extends React.Component {
-    render() {
-        return <AppBar position="static">
-                    <Toolbar></Toolbar>
-                </AppBar>;
-    }
+const animStyles = {
+  flash: {
+    animation: 'x 1s',
+    animationName: Radium.keyframes(flash, 'flash')
+  }
 }
 
-export default NavBar;
+
+
+export default function NavBar() {
+
+  const classes = useStyles();
+
+  return  <StyleRoot >
+        <div className={classes.navbar} style={animStyles.flash}>
+          <AppBar className={classes.bar} >
+            <Toolbar >
+
+            </Toolbar>
+          </AppBar>
+        </div>
+        </StyleRoot>
+}
+
