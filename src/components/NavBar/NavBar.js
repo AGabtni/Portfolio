@@ -1,48 +1,74 @@
 import React from 'react';
-import Radium, {StyleRoot} from 'radium';
-import { AppBar, Toolbar, makeStyles, Theme } from '@material-ui/core';
-import { flash  } from 'react-animations'
+import Radium, { StyleRoot } from 'radium';
+import { AppBar, Toolbar, withStyles, Theme } from '@material-ui/core';
+import { flash } from 'react-animations'
 import './NavBar.css';
+const useStyles = theme => ({
+    navbar: {
+        flexGrow: 1,
 
-const useStyles = makeStyles(theme => ({
-  navbar: {
-    flexGrow: 1,
-    
-  },
-  bar:{
-    backgroundColor : 'rgba(0,0,0,0.5)'
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
+    },
+    bar: {
+        position : 'static',
+        backgroundColor: 'rgba(0,0,0,0.5)'
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+    },
+    title: {
+        flexGrow: 1,
+    },
 
-}));
-
+});
 
 const animStyles = {
-  flash: {
-    animation: 'x 1s',
-    animationName: Radium.keyframes(flash, 'flash')
-  }
+    flash: {
+        animation: 'x 1s',
+        animationName: Radium.keyframes(flash, 'flash')
+    }
 }
 
 
+class NavBar extends React.Component {
 
-export default function NavBar() {
 
-  const classes = useStyles();
+    constructor(props) {
+        super(props);
+         
+      }
 
-  return  <StyleRoot >
-        <div className={classes.navbar} style={animStyles.flash}>
-          <AppBar className={classes.bar} >
-            <Toolbar >
+    componentDidMount() {
+        window.addEventListener('scroll', this.handleScroll);
+    }
+    
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
+    }
+    
+    handleScroll(event) {
 
-            </Toolbar>
-          </AppBar>
-        </div>
+
+        if(window.scrollY >= window.innerHeight){
+            
+            document.getElementById("navbar").style.position = "fixed"
+        }else{
+            document.getElementById("navbar").style.position = "relative"
+        }
+
+    
+    }
+    render() {
+
+        const { classes } = this.props;
+        return <StyleRoot >
+            <div className={classes.navbar} style={animStyles.flash}>
+                <AppBar id="navbar" className={classes.bar}  >
+                    <Toolbar >
+
+                    </Toolbar>
+                </AppBar>
+            </div>
         </StyleRoot>
+    }
 }
-
+export default withStyles(useStyles)(NavBar);

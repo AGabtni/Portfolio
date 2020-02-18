@@ -10,7 +10,7 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPa
 import { FilmPass } from "three/examples/jsm/postprocessing/FilmPass"
 
 import { DotScreenShader } from "three/examples/jsm/shaders/DotScreenShader"
-import { GammaCorrectionShader  } from "three/examples/jsm/shaders/GammaCorrectionShader"
+import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectionShader"
 
 var scene = new THREE.Scene();
 let renderer;
@@ -53,7 +53,7 @@ function init() {
 
   var geometry = new THREE.SphereBufferGeometry(1, 4, 4);
   var material = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true });
-  var mat = new THREE.ShaderMaterial( {
+  var mat = new THREE.ShaderMaterial({
 
     uniforms: {},
 
@@ -68,7 +68,7 @@ function init() {
       "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
 
       "}"
-    ].join( "\n" ),
+    ].join("\n"),
 
     fragmentShader: [
       "varying vec2 vUV;",
@@ -80,8 +80,8 @@ function init() {
       "gl_FragColor = c;",
 
       "}"
-    ].join( "\n" )
-  } );
+    ].join("\n")
+  });
 
   for (var i = 0; i < 100; i++) {
 
@@ -117,14 +117,14 @@ function init() {
   bloomPass.threshold = params.bloomThreshold;
   bloomPass.strength = params.bloomStrength;
   bloomPass.radius = params.bloomRadius;
-  composer.addPass( bloomPass );
+  composer.addPass(bloomPass);
 
 
 
   //Film effect : 
 
-  var effectFilmBW = new FilmPass( 0.35, 0.5, 2048, true );
-  var gammaCorrection = new ShaderPass( GammaCorrectionShader );
+  var effectFilmBW = new FilmPass(0.35, 0.5, 2048, true);
+  var gammaCorrection = new ShaderPass(GammaCorrectionShader);
   composer.addPass(effectFilmBW);
   composer.addPass(gammaCorrection)
   window.addEventListener('resize', onWindowResize, false);
@@ -163,14 +163,48 @@ function onWindowResize() {
   composer.setSize(window.innerWidth, window.innerHeight);
 }
 
-
-function App() {
-  return (
-    <div className="App">
+class App extends React.Component {
+  render() {
+    return <div className="App">
 
       <NavBar></NavBar>
-    </div>
-  );
+      efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
+    </div>;
+  }
 }
-
 export default App;
