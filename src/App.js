@@ -1,4 +1,6 @@
 import React from 'react';
+import { withStyles } from '@material-ui/core';
+
 import './App.css';
 import NavBar from './components/NavBar/NavBar'
 import * as THREE from "three";
@@ -163,9 +165,24 @@ function onWindowResize() {
   composer.setSize(window.innerWidth, window.innerHeight);
 }
 
+
+const useStyles = theme => ({
+  App: {
+      
+  },
+
+});
+
 class App extends React.Component {
+
+
+  constructor(props) {
+    super(props);
+    
+  }
   render() {
-    return <div className="App">
+    const { classes } = this.props;
+    return <div className={classes.App}>
 
       <NavBar></NavBar>
       efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
@@ -207,4 +224,4 @@ class App extends React.Component {
     </div>;
   }
 }
-export default App;
+export default withStyles(useStyles)(App);

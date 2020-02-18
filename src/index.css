@@ -5,6 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 code {
@@ -26,9 +29,7 @@ code {
 }
 
 .middleSection{
-
-  width: 100%;
-  height: 200%;
+  display:flex;
   justify-items: center;
 
   background-color: aquamarine;
