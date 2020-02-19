@@ -1,8 +1,11 @@
 import React from 'react';
+import smoothscroll from 'smoothscroll-polyfill';
 import { withStyles } from '@material-ui/core';
 
 import './App.css';
-import NavBar from './components/NavBar/NavBar'
+import NavBar from './components/NavBar/NavBar';
+import Portfolio from './components/Portfolio/Portfolio';
+
 import * as THREE from "three";
 
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
@@ -166,63 +169,104 @@ function onWindowResize() {
 }
 
 
+
 const useStyles = theme => ({
   App: {
  
-
+      marginTop : '100px',
   },
 
 });
 
+
+// kick off the polyfill!
+smoothscroll.polyfill();
 class App extends React.Component {
 
 
   constructor(props) {
     super(props);
+    this.state = {
+      section : [
+        {
+          id: 0,
+          title: 'Home',
+          selected: false,
+          selector : "c",
+          key: 'section'
+
+        },
+        {
+          id: 1,
+          title: 'Portfolio',
+          selected: false,
+          selector : "content",
+          key: 'section'
+
+
+        },
+        {
+          id: 2,
+          title: 'About',
+          selected: false,
+          selector : "c",
+          key: 'section'
+
+        },
+        {
+          id: 3,
+          title: 'Contact',
+          selected: false,
+          selector : "c",
+          key: 'section'
+
+        },
+
+
+
+
+
+      ]
+    }
+
+
+
+
+
     
   }
+
+  componentDidMount(){
+
+  }
+
+  componentWillUnmount(){
+
+  }
+ 
+  //Function passed to navbar to select an item from the mobile dropdown : 
+  toggleSelected = (id, key) =>{
+    let temp = this.state[key]
+    temp[id].selected = !temp[id].selected
+    this.setState({
+      [key]: temp
+    })
+
+
+    document.querySelector("#"+temp[id].selector).scrollIntoView({ behavior: 'smooth' });
+  }
+
+  
+
+
   render() {
     const { classes } = this.props;
-    return <div className={classes.App}>
+    return <> <NavBar list={this.state.section} toggleItem={this.toggleSelected} ></NavBar>
+        <div className={classes.App}>
+            <Portfolio  ></Portfolio>
 
-      <NavBar></NavBar>
-      efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-          efzinflzneflkjzneflknzelfknzelkfnezlkfnzelknflkeznf
-    </div>;
+        </div>
+      </>;
   }
 }
 export default withStyles(useStyles)(App);

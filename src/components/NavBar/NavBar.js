@@ -1,18 +1,22 @@
 import React from 'react';
 import Radium, { StyleRoot } from 'radium';
-import { AppBar, Toolbar, withStyles, IconButton, Typography } from '@material-ui/core';
+import { AppBar, Toolbar, withStyles, IconButton, Typography, Button, ButtonGroup } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import { flash, fadeInDown, fadeOutUp } from 'react-animations'
+import { bounceInLeft, fadeInDown, fadeOutUp } from 'react-animations'
 import './NavBar.css';
+
+
 const useStyles = theme => ({
-    navbar: {
-        flexGrow: 1,
+    appbar: {
+        display: 'flex',
+        position : 'relative',
+        backgroundColor: 'rgba(0,0,0,0.5)'
 
     },
     bar: {
         flexGrow: 1,
         position: 'static',
-        backgroundColor: 'rgba(0,0,0,0.5)'
+        textAlign: 'center'
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -22,27 +26,33 @@ const useStyles = theme => ({
     },
 
     navItem: {
-        margin: '20px'
+        padding: '20px'
 
     },
 
 });
 
 const animStyles = {
-    flash: {
+    bounceInLeft: {
         animation: 'x 1s',
-        animationName: Radium.keyframes(flash, 'flash')
+        animationName: Radium.keyframes(bounceInLeft, 'bounceInLeft')
     },
+
     fadeInDown: {
+
         animation: 'x 1s',
-        animationName: Radium.keyframes(fadeInDown, 'fadeInDown')
+        animationName: Radium.keyframes(fadeInDown, 'fadeInDown'),
+        opacity: '1.0',
+
     },
     fadeOutUp: {
 
         animation: 'x 1s',
         animationName: Radium.keyframes(fadeOutUp, 'fadeOutUp'),
-        opacity: '0.0'
-    }
+        opacity: '0.0',
+
+    },
+
 }
 
 
@@ -83,7 +93,6 @@ class NavBar extends React.Component {
 
         }))
 
-        console.log("ejfznl")
     }
 
     resize() {
@@ -119,53 +128,74 @@ class NavBar extends React.Component {
     render() {
 
         const { classes } = this.props;
+        const { list } = this.props;
         return <StyleRoot >
-            <div style={animStyles.flash}>
-            <AppBar id="appbar" className={classes.bar}   >
+            <div  >
+                <AppBar id="appbar" className={classes.appbar} >
 
-                {!this.state.mobile &&
-                        <Toolbar >
-                            <Typography variant="h6" color="inherit"
-                                className={classes.title}>
-                                <nav style={{ display: "flex" }}>
-                                    <div className={classes.navItem} > Home </div>
-                                    <div className={classes.navItem}> Portfolio </div>
-                                    <div className={classes.navItem} > About </div>
-                                    <div className={classes.navItem} > Contact </div>
-                                </nav>
-                            </Typography>
+                    {!this.state.mobile &&
+                        <Toolbar className={classes.bar}>
+
+                            <ButtonGroup size="large" variant="text" >
+
+                                {list.map((item) => (
+
+                                    <Button className={classes.navItem}
+                                        key={item.id}
+                                        onClick={() => this.props.toggleItem(item.id, item.key)}>
+
+                                        {item.title}
+
+                                    </Button>
+
+                                ))}
+                            </ButtonGroup >
 
                         </Toolbar>
 
-                }
+                    }
 
-                {   /**mobile dropdown menu*/
+                    {   /**mobile dropdown menu*/
 
-                    this.state.mobile &&
-                    <div >
-                        <div className={classes.bar}>
-                            <IconButton onClick={() => this.toggleNavMenu()}
-                                edge="end"
-                                className={classes.menuButton}
-                                color="inherit"
-                                aria-label="open drawer">
+                        this.state.mobile &&
+                        <>
+                            <Toolbar className={classes.bar}>
+                                <IconButton onClick={() => this.toggleNavMenu()}
+                                    edge="end"
+                                    className={classes.menuButton}
+                                    color="inherit"
+                                    aria-label="open drawer">
 
-                                <MenuIcon />
-                            </IconButton>
-                        </div>
-                        { this.state.listOpen &&
-                            <div className={classes.bar} style={this.state.listOpen ? animStyles.fadeInDown : animStyles.fadeOutUp}>
-                            <ul >
-                                <li>Home</li>
-                                <li>Portfolio</li>
-                                <li>About</li>
-                                <li>Contact</li>
+                                    <MenuIcon />
+                                </IconButton>
+                            </Toolbar>
 
-                            </ul>
-                        </div>}
-                    </div>
-                }
-            </AppBar>
+                            { /** MOBILE DROPDOWN MENU */
+                                this.state.listOpen &&
+                                <div className={classes.bar} >
+                                    <ButtonGroup orientation="vertical" variant="text">
+
+                                        {list.map((item) => (
+
+                                            <Button
+                                                className={classes.navItem}
+                                                key={item.id}
+                                                onClick={() => { this.toggleNavMenu(); this.props.toggleItem(item.id, item.key); }}>
+                                                <span style={this.state.listOpen ? animStyles.bounceInLeft : null}>
+                                                    {item.title}
+                                                </span>
+                                            </Button>
+
+                                        ))}
+
+
+                                    </ButtonGroup>
+                                </div>
+                            }
+                        </>
+
+                    }
+                </AppBar>
 
             </div>
         </StyleRoot>
