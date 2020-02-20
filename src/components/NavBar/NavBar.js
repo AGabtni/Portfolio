@@ -9,8 +9,8 @@ import './NavBar.css';
 const useStyles = theme => ({
     appbar: {
         display: 'flex',
-        flexGrow :'1',
-        position : 'relative',
+        flexGrow: '1',
+        position: 'relative',
         backgroundColor: 'rgba(0,0,0,0.5)'
 
     },
@@ -19,15 +19,19 @@ const useStyles = theme => ({
         position: 'static',
         textAlign: 'center'
     },
+    menu:{
+    },
     menuButton: {
-        marginRight: theme.spacing(2),
+        marginLeft : '50px'
+
     },
     title: {
         flexGrow: 1,
     },
 
     navItem: {
-        padding: '20px'
+        padding: '20px',
+        width: 'inherit'
 
     },
 
@@ -35,7 +39,7 @@ const useStyles = theme => ({
 
 const animStyles = {
     bounceInLeft: {
-        animation: 'x 1s',
+        animation: 'x 0.75s',
         animationName: Radium.keyframes(bounceInLeft, 'bounceInLeft')
     },
 
@@ -84,7 +88,7 @@ class NavBar extends React.Component {
         window.removeEventListener('scroll', this.handleScroll);
     }
 
-
+    //Open and close mobile burger menu 
     toggleNavMenu() {
 
         this.setState(prevState => ({
@@ -108,9 +112,11 @@ class NavBar extends React.Component {
             this.setState({ "mobile": true })
         }
 
-        
+
     }
 
+
+    //Fix the nav bar when scolling past it :
     handleScroll(event) {
 
 
@@ -137,18 +143,18 @@ class NavBar extends React.Component {
                     {!this.state.mobile &&
                         <Toolbar className={classes.bar}>
 
-                            <ButtonGroup size="large" variant="text" >
+                            <ButtonGroup size="large" className={classes.menu}>
 
                                 {list.map((item) => (
+                                    <div className="hvr-grow" >
+                                        <Button className={classes.navItem}
+                                            key={item.id}
+                                            onClick={() => this.props.toggleItem(item.id, item.key)}>
 
-                                    <Button className={classes.navItem}
-                                        key={item.id}
-                                        onClick={() => this.props.toggleItem(item.id, item.key)}>
+                                            {item.title}
 
-                                        {item.title}
-
-                                    </Button>
-
+                                        </Button>
+                                    </div>
                                 ))}
                             </ButtonGroup >
 
@@ -163,7 +169,6 @@ class NavBar extends React.Component {
                             <Toolbar className={classes.bar}>
                                 <IconButton onClick={() => this.toggleNavMenu()}
                                     edge="end"
-                                    className={classes.menuButton}
                                     color="inherit"
                                     aria-label="open drawer">
 
@@ -177,15 +182,18 @@ class NavBar extends React.Component {
                                     <ButtonGroup orientation="vertical" variant="text">
 
                                         {list.map((item) => (
+                                            <div className="hvr-pulse">
+                                                <Button
+                                                    className={classes.navItem}
 
-                                            <Typography
-                                                className={classes.navItem}
-                                                key={item.id}
-                                                onClick={() => { this.toggleNavMenu(); this.props.toggleItem(item.id, item.key); }}>
-                                                <span style={this.state.listOpen ? animStyles.bounceInLeft : null}>
-                                                    {item.title}
-                                                </span>
-                                            </Typography>
+                                                    key={item.id}
+                                                    onClick={() => { this.toggleNavMenu(); this.props.toggleItem(item.id, item.key); }}>
+
+                                                    <span style={this.state.listOpen ? animStyles.bounceInLeft : null}>
+                                                        {item.title}
+                                                    </span>
+                                                </Button>
+                                            </div>
 
                                         ))}
 

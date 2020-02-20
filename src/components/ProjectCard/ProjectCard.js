@@ -12,7 +12,7 @@ const useStyles = theme => ({
         minHeight: '300px',
         minWidth: '300px',
         textAlign: 'center',
-        alignItems : 'center',
+        alignItems: 'center',
         justifyContent: 'center',
         padding: '10px'
     },
@@ -56,7 +56,7 @@ class ProjectCard extends React.Component {
 
         const { classes } = this.props;
         const { title } = this.props;
-        return <StyleRoot >
+        return <StyleRoot className="hvr-bob">
             <Paper className={classes.container}>
 
                 <Typography variant="h2" style={{ textAlign: "center", fontWeight: "700" }}>

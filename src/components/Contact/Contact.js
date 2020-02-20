@@ -1,8 +1,8 @@
 import React from 'react';
 import Radium, { StyleRoot } from 'radium';
-import {  withStyles, Typography, Paper } from '@material-ui/core';
-import { bounceIn, bounceInDown } from 'react-animations'
-
+import {Input , TextField , withStyles, Typography, Paper } from '@material-ui/core';
+import { bounceIn, bounceInDown } from 'react-animations';
+import "./Contact.css";
 
 const useStyles = theme => ({
     container: {
@@ -53,7 +53,7 @@ const animStyles = {
 }
 
 
-class About extends React.Component {
+class Contact extends React.Component {
 
 
     constructor(props) {
@@ -70,7 +70,7 @@ class About extends React.Component {
     }
 
     componentWillUnmount() {
-        document.removeEventListener('scroll', this.trackScrolling);
+        document.removeEventListener('scroll', this.s);
 
     }
 
@@ -81,10 +81,9 @@ class About extends React.Component {
 
     }
 
-
     //Track scrolling to set state reveal to reveal-animate elements in this component
     trackScrolling = () => {
-        const wrappedElement = document.getElementById('about');
+        const wrappedElement = document.getElementById('contact');
         if (this.isTop(wrappedElement)) {
             this.setState({ "reveal": true });
             document.removeEventListener('scroll', this.trackScrolling);
@@ -97,21 +96,20 @@ class About extends React.Component {
         const { reveal } = this.state;
         console.log(reveal);
 
-        return <StyleRoot className={classes.container}>
+        return <StyleRoot  className={classes.container}>
              
-            <div style={reveal ? animStyles.bounceInDown : animStyles.invisible}>
+            <div  style={reveal ? animStyles.bounceInDown : animStyles.invisible}>
                 <Typography variant="h2" style={{ textAlign: "center", fontWeight: "700" }}>
-                    About me
+                    Contact
                 </Typography>
             </div>
 
 
-            <div style={reveal ? animStyles.bounceIn : animStyles.invisible}>
-                <Paper className={classes.experience}>
+            <div 
+                style={reveal ? animStyles.bounceIn : animStyles.invisible}>
+                <Paper  className={classes.experience}>
 
-                    <Typography variant="h6" style={{ fontWeight: "700" }}>
-                        Experience  :
-                </Typography>
+                    
 
 
                 </Paper>
@@ -120,4 +118,4 @@ class About extends React.Component {
 
     }
 }
-export default withStyles(useStyles)(About);
+export default withStyles(useStyles)(Contact);

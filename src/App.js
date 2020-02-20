@@ -175,9 +175,9 @@ function onWindowResize() {
 
 const useStyles = theme => ({
   App: {
- 
-      marginTop : '100px',
-      
+
+    marginTop: '100px',
+
   },
 
 });
@@ -191,12 +191,12 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      section : [
+      section: [
         {
           id: 0,
           title: 'Home',
           selected: false,
-          selector : "c",
+          selector: "c",
           key: 'section'
 
         },
@@ -204,7 +204,7 @@ class App extends React.Component {
           id: 1,
           title: 'Portfolio',
           selected: false,
-          selector : "portfolio",
+          selector: "portfolio",
           key: 'section'
 
 
@@ -213,7 +213,7 @@ class App extends React.Component {
           id: 2,
           title: 'About',
           selected: false,
-          selector : "about",
+          selector: "about",
           key: 'section'
 
         },
@@ -221,7 +221,7 @@ class App extends React.Component {
           id: 3,
           title: 'Contact',
           selected: false,
-          selector : "c",
+          selector: "contact",
           key: 'section'
 
         },
@@ -237,19 +237,13 @@ class App extends React.Component {
 
 
 
-    
-  }
-
-  componentDidMount(){
 
   }
 
-  componentWillUnmount(){
 
-  }
- 
+
   //Function passed to navbar to select an item from the mobile dropdown : 
-  toggleSelected = (id, key) =>{
+  toggleSelected = (id, key) => {
     let temp = this.state[key]
     temp[id].selected = !temp[id].selected
     this.setState({
@@ -257,15 +251,13 @@ class App extends React.Component {
     })
 
 
-    document.querySelector("#"+temp[id].selector).scrollIntoView({ behavior: 'smooth' });
+    document.querySelector("#" + temp[id].selector).scrollIntoView({ behavior: 'smooth' });
   }
-
-  
-
 
   render() {
-    return  <NavBar list={this.state.section} toggleItem={this.toggleSelected} ></NavBar>
-        
+    return <NavBar list={this.state.section} toggleItem={this.toggleSelected} ></NavBar>
+
   }
+  
 }
 export default withStyles(useStyles)(App);

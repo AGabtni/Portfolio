@@ -66,13 +66,14 @@ class Portfolio extends React.Component {
 
     }
 
-
+    //Is the element's top  visible on the client window
     isTop(el) {
 
         return el.getBoundingClientRect().top  <= window.innerHeight;
 
     }
 
+    //Track scrolling to set state reveal to reveal-animate elements in this component
     trackScrolling = () => {
         const wrappedElement = document.getElementById('portfolio');
         if (this.isTop(wrappedElement)) {
