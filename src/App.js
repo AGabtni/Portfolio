@@ -174,6 +174,7 @@ const useStyles = theme => ({
   App: {
  
       marginTop : '100px',
+      
   },
 
 });
@@ -200,7 +201,7 @@ class App extends React.Component {
           id: 1,
           title: 'Portfolio',
           selected: false,
-          selector : "content",
+          selector : "portfolio",
           key: 'section'
 
 
@@ -209,7 +210,7 @@ class App extends React.Component {
           id: 2,
           title: 'About',
           selected: false,
-          selector : "c",
+          selector : "about",
           key: 'section'
 
         },
@@ -262,10 +263,7 @@ class App extends React.Component {
   render() {
     const { classes } = this.props;
     return <> <NavBar list={this.state.section} toggleItem={this.toggleSelected} ></NavBar>
-        <div className={classes.App}>
-            <Portfolio  ></Portfolio>
-
-        </div>
+        
       </>;
   }
 }

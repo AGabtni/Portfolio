@@ -9,6 +9,7 @@ import './NavBar.css';
 const useStyles = theme => ({
     appbar: {
         display: 'flex',
+        flexGrow :'1',
         position : 'relative',
         backgroundColor: 'rgba(0,0,0,0.5)'
 
@@ -177,14 +178,14 @@ class NavBar extends React.Component {
 
                                         {list.map((item) => (
 
-                                            <Button
+                                            <Typography
                                                 className={classes.navItem}
                                                 key={item.id}
                                                 onClick={() => { this.toggleNavMenu(); this.props.toggleItem(item.id, item.key); }}>
                                                 <span style={this.state.listOpen ? animStyles.bounceInLeft : null}>
                                                     {item.title}
                                                 </span>
-                                            </Button>
+                                            </Typography>
 
                                         ))}
 

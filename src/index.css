@@ -25,13 +25,20 @@ code {
 
 }
 
-.middleSection{
+#portfolio{
+  left: 0;
+  top: 0;
+  height: 100vh;
   display: flex;
-  flex-flow: column;
-  flex-grow: 1;
-  width: 100%;
-  height: 100%;
-  justify-items: center;
+  height: '100%';
+  flex-direction: column;
+  align-items: center;
+}
+#about{
+  height: 100vh;
 
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: lightgray;
 }
