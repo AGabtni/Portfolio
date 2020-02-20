@@ -1,7 +1,6 @@
 import React from 'react';
 import Radium, { StyleRoot } from 'radium';
-import { Paper, withStyles, IconButton, Typography, Button } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import { Paper, withStyles, Typography, Button } from '@material-ui/core';
 import { bounceIn } from 'react-animations'
 
 import './ProjectCard.css';
@@ -42,12 +41,6 @@ const animStyles = {
 class ProjectCard extends React.Component {
 
 
-    constructor(props) {
-        super(props);
-
-
-    }
-
 
 
     componentDidMount() {
@@ -63,7 +56,6 @@ class ProjectCard extends React.Component {
 
         const { classes } = this.props;
         const { title } = this.props;
-        console.log(title)
         return <StyleRoot >
             <Paper className={classes.container}>
 

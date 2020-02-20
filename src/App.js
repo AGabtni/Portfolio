@@ -4,8 +4,11 @@ import { withStyles } from '@material-ui/core';
 
 import './App.css';
 import NavBar from './components/NavBar/NavBar';
-import Portfolio from './components/Portfolio/Portfolio';
 
+
+
+/** THREE JS IMPORTS
+ */
 import * as THREE from "three";
 
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
@@ -57,7 +60,7 @@ function init() {
 
 
   var geometry = new THREE.SphereBufferGeometry(1, 4, 4);
-  var material = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true });
+  //var material = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true });
   var mat = new THREE.ShaderMaterial({
 
     uniforms: {},
@@ -261,10 +264,8 @@ class App extends React.Component {
 
 
   render() {
-    const { classes } = this.props;
-    return <> <NavBar list={this.state.section} toggleItem={this.toggleSelected} ></NavBar>
+    return  <NavBar list={this.state.section} toggleItem={this.toggleSelected} ></NavBar>
         
-      </>;
   }
 }
 export default withStyles(useStyles)(App);

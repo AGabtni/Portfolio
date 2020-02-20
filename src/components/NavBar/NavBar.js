@@ -107,8 +107,8 @@ class NavBar extends React.Component {
 
             this.setState({ "mobile": true })
         }
-        console.log(this.state.mobile)
 
+        
     }
 
     handleScroll(event) {

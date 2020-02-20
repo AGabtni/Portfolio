@@ -1,22 +1,31 @@
 import React from 'react';
 import Radium, { StyleRoot } from 'radium';
-import { Grid, Container, withStyles, IconButton, Typography, Button, GridList, GridListTile } from '@material-ui/core';
-import { bounceIn } from 'react-animations'
+import { Grid, Container, withStyles, Typography, Card, Paper } from '@material-ui/core';
+import { bounceIn, bounceInDown } from 'react-animations'
 
 
 const useStyles = theme => ({
     container: {
         display: "flex",
-        flexGrow: 1,
-        paddingTop: "150px",
-        flexDirection : "column"
+        width: "100%",
+        padding: "50px",
+        flexDirection: "column",
     },
 
     gridList: {
-        marginTop : '100px',
+        marginTop: '100px',
         display: "flex",
         flexGrow: 1,
-        
+
+    },
+
+    experience: {
+        padding: "30px",
+        marginTop: '100px',
+        marginBottom: '100px',
+        flexDirection: "row",
+
+
     }
 });
 
@@ -27,12 +36,19 @@ const animStyles = {
         animationName: Radium.keyframes(bounceIn, 'bounceIn'),
 
     },
+    bounceInDown: {
+        animation: 'x 2s',
+        animationName: Radium.keyframes(bounceInDown, 'bounceInDown'),
+
+
+    },
 
     invisible: {
 
         opacity: '0.0',
-    }
 
+        animationName: 'invisible'
+    }
 
 }
 
@@ -61,7 +77,7 @@ class About extends React.Component {
 
     isTop(el) {
 
-        return el.getBoundingClientRect().top + 100 <= window.innerHeight;
+        return el.getBoundingClientRect().top  <= window.innerHeight;
 
     }
 
@@ -77,24 +93,29 @@ class About extends React.Component {
 
         const { classes } = this.props;
         const { reveal } = this.state;
-        const { projects } = this.state;
-        console.log(projects);
+        console.log(reveal);
 
-        return <StyleRoot >
-            <Container maxWidth="lg" className={classes.container}>
-                <div  style={reveal ? animStyles.bounceIn : animStyles.invisible} >
-                    <Typography variant="h2" style={{ textAlign: "center", fontWeight: "700" }}>
-                        About me
-                    </Typography>
-                </div>
-                
-                <Grid justify="center"  container   className={classes.gridList} >
+        return <StyleRoot className={classes.container}>
+             
+            <div style={reveal ? animStyles.bounceInDown : animStyles.invisible}>
+                <Typography variant="h2" style={{ textAlign: "center", fontWeight: "700" }}>
+                    About me
+                </Typography>
+            </div>
 
 
+            <div style={reveal ? animStyles.bounceIn : animStyles.invisible}>
+                <Paper className={classes.experience}>
 
-                </Grid>
-            </Container>
+                    <Typography variant="h6" style={{ fontWeight: "700" }}>
+                        Experience  :
+                </Typography>
+
+
+                </Paper>
+            </div>
         </StyleRoot>
+
     }
 }
 export default withStyles(useStyles)(About);

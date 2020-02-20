@@ -1,8 +1,7 @@
 import React from 'react';
 import Radium, { StyleRoot } from 'radium';
-import { Grid, Container, withStyles, IconButton, Typography, Button, GridList, GridListTile } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import { bounceIn } from 'react-animations'
+import { Grid, Container, withStyles, Typography } from '@material-ui/core';
+import { bounceIn, bounceInDown } from 'react-animations'
 import './Portfolio.css';
 
 import ProjectCard from '../ProjectCard/ProjectCard';
@@ -31,7 +30,12 @@ const animStyles = {
         animationName: Radium.keyframes(bounceIn, 'bounceIn'),
 
     },
+    bounceInDown: {
+        animation: 'x 2s',
+        animationName: Radium.keyframes(bounceInDown, 'bounceInDown'),
 
+
+    },
     invisible: {
 
         opacity: '0.0',
@@ -65,7 +69,7 @@ class Portfolio extends React.Component {
 
     isTop(el) {
 
-        return el.getBoundingClientRect().top + 100 <= window.innerHeight;
+        return el.getBoundingClientRect().top  <= window.innerHeight;
 
     }
 
@@ -82,11 +86,13 @@ class Portfolio extends React.Component {
         const { classes } = this.props;
         const { reveal } = this.state;
         const { projects } = this.state;
-        console.log(projects);
 
         return <StyleRoot >
             <Container maxWidth="lg" className={classes.container}>
-                <div  style={reveal ? animStyles.bounceIn : animStyles.invisible} >
+
+
+
+                <div  style={reveal ? animStyles.bounceInDown : animStyles.invisible} >
                     <Typography variant="h2" style={{ textAlign: "center", fontWeight: "700" }}>
                         Portfolio
                     </Typography>
