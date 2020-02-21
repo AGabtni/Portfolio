@@ -10,7 +10,7 @@ import NavBar from './components/NavBar/NavBar';
 /** THREE JS IMPORTS
  */
 import * as THREE from "three";
-
+import {Tween, Easing} from "@tweenjs/tween.js/dist/tween.cjs"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass"
@@ -20,7 +20,9 @@ import { FilmPass } from "three/examples/jsm/postprocessing/FilmPass"
 import { DotScreenShader } from "three/examples/jsm/shaders/DotScreenShader"
 import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectionShader"
 
+
 var scene = new THREE.Scene();
+var clock = new THREE.Clock();
 let renderer;
 let composer;
 let camera;
@@ -194,7 +196,8 @@ function animate() {
     INTERSECTED = null;
   }
   composer.render();
-
+  if(t !== undefined)
+    t.update()
 
 }
 
@@ -203,7 +206,6 @@ function render() {
 
 
   renderer.render(scene, camera);
-
 }
 
 
@@ -215,26 +217,40 @@ function coroutine(f) {
   }
 }
 
-function shrink(obj){
+var t;
+function setupObjectScaleAnimation( object, source, target, duration, delay, easing )
+{
+    var l_delay = ( delay !== undefined ) ? delay : 0;
+    var l_easing = ( easing !== undefined ) ? easing : Easing.Linear.None;
 
-  while(x.scale.x > 0 ){
-    clock = new THREE.Clock();
-    time = clock.getElapsedTime();
+         t = new Tween( source )
+        t.to( target, duration )
+        t.delay( l_delay )
+        t.easing( l_easing )
+        t.onUpdate( function() { 
+            //Inflate
+            if(object.scale.distanceTo(target) > 0.2 ){
 
-    x.scale.x = time / 1000;
-  I x.scale.y = time / 1000;
+                object.scale.x -= 0.1;
+                object.scale.y -= 0.1;
+                object.scale.z -= 0.1;
+            }else{
 
-   
-  }
-    setTimeout(function () {
-      if(!x.visible){
-          x.visible = true;
-          console.log(x)  
-        
-      }
-    }, 3500);
+              
+                object.visible = false;
+              
+            }
 
+
+         } )
+        t.start();
+        console.log( t);
+
+
+        //Hint  : Twin chain : https://github.com/tweenjs/tween.js/blob/master/docs/user_guide.md
 }
+
+
 
 function onMouseClick( event ) {
 
@@ -242,7 +258,11 @@ function onMouseClick( event ) {
 
   if(INTERSECTED){
     
-    shrink(scene.children[INTERSECTED.name])
+    setupObjectScaleAnimation( INTERSECTED,
+      { x: 1, y: 1, z: 1 }, { x: 0, y: 0, z: 0 },
+      2000, 500, Easing.Linear.None );
+    
+     
     
   }
 
