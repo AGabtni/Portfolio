@@ -10,6 +10,7 @@ const useStyles = theme => ({
         width: "100%",
         padding: "50px",
         flexDirection: "column",
+        marginTop: '100px',
     },
 
     gridList: {

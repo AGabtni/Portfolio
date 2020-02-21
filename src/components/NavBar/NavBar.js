@@ -146,7 +146,7 @@ class NavBar extends React.Component {
                             <ButtonGroup size="large" className={classes.menu}>
 
                                 {list.map((item) => (
-                                    <div className="hvr-grow" >
+                                    <div className="hvr-grow"  key={item.id} >
                                         <Button className={classes.navItem}
                                             key={item.id}
                                             onClick={() => this.props.toggleItem(item.id, item.key)}>

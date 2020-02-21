@@ -24,7 +24,39 @@ var scene = new THREE.Scene();
 let renderer;
 let composer;
 let camera;
-let object
+let raycaster;
+var mouse = new THREE.Vector2(), INTERSECTED, selected;
+var radius = 100, theta = 0;
+var shaderMat = new THREE.ShaderMaterial({
+
+  uniforms: {},
+
+  vertexShader: [
+    "varying vec2 vUV;",
+    "varying vec3 vNormal;",
+
+    "void main() {",
+
+    "vUV = uv;",
+    "vNormal = vec3( normal );",
+    "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
+
+    "}"
+  ].join("\n"),
+
+  fragmentShader: [
+    "varying vec2 vUV;",
+    "varying vec3 vNormal;",
+
+    "void main() {",
+
+    "vec4 c = vec4( abs( vNormal ) + vec3( vUV, 0.0 ), 0.0 );",
+    "gl_FragColor = c;",
+
+    "}"
+  ].join("\n")
+});
+let objects =[];
 let light
 var params = {
   exposure: 1,
@@ -47,66 +79,45 @@ function init() {
   canvas.height = document.body.clientHeight;
   renderer = new THREE.WebGLRenderer({ canvas });
 
+  raycaster = new THREE.Raycaster();
 
-  camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
-  camera.position.z = 400;
 
+ 
   scene = new THREE.Scene();
   scene.fog = new THREE.Fog(0x000000, 1, 1000);
-  scene.add(camera)
 
-  object = new THREE.Object3D();
-  scene.add(object);
 
 
   var geometry = new THREE.SphereBufferGeometry(1, 4, 4);
   //var material = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true });
-  var mat = new THREE.ShaderMaterial({
+  
 
-    uniforms: {},
 
-    vertexShader: [
-      "varying vec2 vUV;",
-      "varying vec3 vNormal;",
+  var mat2 = new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } );
 
-      "void main() {",
-
-      "vUV = uv;",
-      "vNormal = vec3( normal );",
-      "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
-
-      "}"
-    ].join("\n"),
-
-    fragmentShader: [
-      "varying vec2 vUV;",
-      "varying vec3 vNormal;",
-
-      "void main() {",
-
-      "vec4 c = vec4( abs( vNormal ) + vec3( vUV, 0.0 ), 0.0 );",
-      "gl_FragColor = c;",
-
-      "}"
-    ].join("\n")
-  });
-
+  //Populate scene with meshes
   for (var i = 0; i < 100; i++) {
 
-    var mesh = new THREE.Mesh(geometry, mat);
+    var mesh = new THREE.Mesh(geometry,  new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ));
     mesh.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
     mesh.position.multiplyScalar(Math.random() * 400);
     mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
     mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 50;
-    object.add(mesh);
+    mesh.name = i;
+    scene.add(mesh)
+    objects.push(mesh);
 
   }
+  //--Camera set up
+  camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+  camera.position.z = 400;
+  scene.add(camera)
+
   //--Lightning set up
   scene.add(new THREE.AmbientLight(0x222222));
   light = new THREE.DirectionalLight(0xffffff);
   light.position.set(1, 1, 1);
   scene.add(light);
-
 
 
   //--Postprocessing : 
@@ -134,10 +145,14 @@ function init() {
   var effectFilmBW = new FilmPass(0.35, 0.5, 2048, true);
   var gammaCorrection = new ShaderPass(GammaCorrectionShader);
   composer.addPass(effectFilmBW);
-  composer.addPass(gammaCorrection)
-  window.addEventListener('resize', onWindowResize, false);
-  animate()
+  composer.addPass(gammaCorrection);
 
+
+  window.addEventListener('resize', onWindowResize, false);
+  document.addEventListener( 'mousemove', onMouseMove, false );
+  document.addEventListener('mousedown',onMouseClick, false);
+  animate()
+  console.log(scene)
 }
 
 function animate() {
@@ -145,8 +160,39 @@ function animate() {
   render();
   requestAnimationFrame(animate);
 
-  object.rotation.x += 0.005;
-  object.rotation.y += 0.01;
+ 
+  for(let i = 0 ; i < objects.length ; i++){
+
+    objects[i].rotation.x += 0.005;
+    objects[i].rotation.y += 0.01;
+  }
+
+  
+  raycaster.setFromCamera( mouse, camera );
+
+  //Check for if hovered on object
+  var intersects = raycaster.intersectObjects( scene.children );
+  if ( intersects.length > 0 ) {
+
+    var targetDistance = intersects[ 0 ].distance;
+
+    if ( INTERSECTED != intersects[ 0 ].object ) {
+
+      if ( INTERSECTED ) INTERSECTED.material= new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } );
+
+      INTERSECTED = intersects[ 0 ].object;
+      //INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+      //INTERSECTED.material.emissive.setHex( 0xff0000 );
+      INTERSECTED.material = shaderMat;
+    }
+
+  } else {
+
+    if ( INTERSECTED ) INTERSECTED.material= new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } );
+
+
+    INTERSECTED = null;
+  }
   composer.render();
 
 
@@ -158,10 +204,57 @@ function render() {
 
   renderer.render(scene, camera);
 
+}
 
+
+function coroutine(f) {
+  var o = f(); // instantiate the coroutine
+  o.next(); // execute until the first yield
+  return function(x) {
+      o.next(x);
+  }
+}
+
+function shrink(obj){
+
+  while(x.scale.x > 0 ){
+    clock = new THREE.Clock();
+    time = clock.getElapsedTime();
+
+    x.scale.x = time / 1000;
+  I x.scale.y = time / 1000;
+
+   
+  }
+    setTimeout(function () {
+      if(!x.visible){
+          x.visible = true;
+          console.log(x)  
+        
+      }
+    }, 3500);
 
 }
 
+function onMouseClick( event ) {
+
+  event.preventDefault();
+
+  if(INTERSECTED){
+    
+    shrink(scene.children[INTERSECTED.name])
+    
+  }
+
+}
+function onMouseMove( event ) {
+
+  event.preventDefault();
+
+  mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+  mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+}
 function onWindowResize() {
 
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -176,7 +269,6 @@ function onWindowResize() {
 const useStyles = theme => ({
   App: {
 
-    marginTop: '100px',
 
   },
 
@@ -221,7 +313,7 @@ class App extends React.Component {
           id: 3,
           title: 'Contact',
           selected: false,
-          selector: "contact",
+          selector: "curve",
           key: 'section'
 
         },

@@ -1,6 +1,6 @@
 import React from 'react';
 import Radium, { StyleRoot } from 'radium';
-import {Input , TextField , withStyles, Typography, Paper } from '@material-ui/core';
+import { Input, TextField, withStyles, Typography, Paper } from '@material-ui/core';
 import { bounceIn, bounceInDown } from 'react-animations';
 import "./Contact.css";
 
@@ -8,24 +8,24 @@ const useStyles = theme => ({
     container: {
         display: "flex",
         width: "100%",
-        padding: "50px",
+        height:"100%",
         flexDirection: "column",
+        backgroundColor: "rgba(0,0,0,0)",
+        marginTop: "100px",
     },
 
-    gridList: {
-        marginTop: '100px',
-        display: "flex",
-        flexGrow: 1,
-
+    contactContainer: {
+        padding: "50px",
+        display: 'flex',
+        flexDirection: "column",
+        backgroundColor: "rgba(0,0,0,0)",
+        alignItems: "start"
     },
 
-    experience: {
-        padding: "30px",
-        marginTop: '100px',
-        marginBottom: '100px',
-        flexDirection: "row",
 
-
+    inputField: {
+        marginTop: "50px",
+        width: "80%"
     }
 });
 
@@ -48,7 +48,9 @@ const animStyles = {
         opacity: '0.0',
 
         animationName: 'invisible'
-    }
+    },
+
+
 
 }
 
@@ -77,7 +79,7 @@ class Contact extends React.Component {
     //Is the element's top  visible on the client window
     isTop(el) {
 
-        return el.getBoundingClientRect().top  <= window.innerHeight;
+        return el.getBoundingClientRect().top <= window.innerHeight;
 
     }
 
@@ -86,6 +88,7 @@ class Contact extends React.Component {
         const wrappedElement = document.getElementById('contact');
         if (this.isTop(wrappedElement)) {
             this.setState({ "reveal": true });
+            document.getElementById('curve').classList.add("curve-animate");
             document.removeEventListener('scroll', this.trackScrolling);
 
         }
@@ -95,25 +98,36 @@ class Contact extends React.Component {
         const { classes } = this.props;
         const { reveal } = this.state;
         console.log(reveal);
+        var inputField = classes.inputField;
+        inputField += " hvr-float-shadow";
+        return <StyleRoot className={classes.container}>
 
-        return <StyleRoot  className={classes.container}>
-             
-            <div  style={reveal ? animStyles.bounceInDown : animStyles.invisible}>
+            <div style={reveal ? animStyles.bounceInDown : animStyles.invisible}>
                 <Typography variant="h2" style={{ textAlign: "center", fontWeight: "700" }}>
                     Contact
                 </Typography>
             </div>
 
 
-            <div 
-                style={reveal ? animStyles.bounceIn : animStyles.invisible}>
-                <Paper  className={classes.experience}>
+     
+                <div  className={classes.contactContainer}
+                style={reveal ? animStyles.bounceInDown : animStyles.invisible} >
+                    <TextField className={inputField}
+                        id="outlined-basic" label="Name"
+                        variant="outlined" />
+                    <TextField className={inputField}
+                        id="outlined-basic" label="E-mail"
+                        variant="outlined" />
 
-                    
-
-
-                </Paper>
-            </div>
+                    <TextField
+                        className={inputField}
+                        id="outlined-multiline-static"
+                        label="Message"
+                        multiline
+                        rows="10"
+                        variant="outlined"
+                    />
+                </div>
         </StyleRoot>
 
     }

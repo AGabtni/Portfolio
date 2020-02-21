@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -22,22 +20,42 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-      
-      <div class="overlay">
+  <title>React App</title>
+</head>
 
-      </div>
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
 
-      <canvas  id="c" >
+  <div class="overlay">
 
-      </canvas>
-      
-      <div id="app"></div>  
-      <div id="portfolio" ></div>
-      <div id="about" ></div>
-      <div id="contact"></div>
-  </body>
+  </div>
+
+  <canvas id="c">
+
+  </canvas>
+
+  <div id="app"></div>
+  <div id="portfolio"></div>
+  <div id="about"></div>
+
+  <section class="svgSection">
+    <svg id="curve" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 167.52">
+      <defs>
+        <style>
+          .cls-1 {
+            fill: #2f4f4f;
+          }
+        </style>
+      </defs>
+      <title>wave</title>
+      <path class="cls-1"
+        d="M90,202c12.27-8.41,56.67-37.43,127-49,136.49-22.45,232,43.66,368,61,233,29.72,318.2-117.73,535-73,105.45,21.75,187.5,77.5,187.5,77.5A495.1,495.1,0,0,1,1400,300H0A298.77,298.77,0,0,1,90,202Z"
+        transform="translate(0 -132.48)" />
+    </svg>
+
+  </section>
+  <div id="contact"></div>
+  </div>
+</body>
+
 </html>
