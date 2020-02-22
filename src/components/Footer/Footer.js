@@ -101,7 +101,7 @@ class Footer extends React.Component {
 
         return <StyleRoot className={classes.container} >
              
-             <p>© 2018 Gandalf</p>
+             <p>© 2020 Ahmed Gabtni</p>
 
 
 
