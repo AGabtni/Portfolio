@@ -1,6 +1,6 @@
 import React from 'react';
 import Radium, { StyleRoot } from 'radium';
-import {  withStyles, Typography, Paper, TextField } from '@material-ui/core';
+import {  withStyles, Typography, Paper } from '@material-ui/core';
 import { bounceIn, bounceInDown } from 'react-animations'
 
 
@@ -8,7 +8,6 @@ const useStyles = theme => ({
     container: {
         display: "flex",
         width: "100%",
-        height : "100vh",
         padding: "50px",
         flexDirection: "column",
         marginTop: '100px',
@@ -39,7 +38,7 @@ const animStyles = {
 
     },
     bounceInDown: {
-        animation: 'x 2s',
+        animation: 'x 1s',
         animationName: Radium.keyframes(bounceInDown, 'bounceInDown'),
 
 
@@ -55,7 +54,7 @@ const animStyles = {
 }
 
 
-class About extends React.Component {
+class WelcomeScreen extends React.Component {
 
 
     constructor(props) {
@@ -76,18 +75,11 @@ class About extends React.Component {
 
     }
 
-    //Is the element's top  visible on the client window
-    isTop(el) {
-
-        return el.getBoundingClientRect().top  <= window.innerHeight;
-
-    }
 
 
     //Track scrolling to set state reveal to reveal-animate elements in this component
     trackScrolling = () => {
-        const wrappedElement = document.getElementById('about');
-        if (this.isTop(wrappedElement)) {
+        if (window.scrollY < window.innerHeight && window.scrollY >= 0  ) {
             this.setState({ "reveal": true });
             document.removeEventListener('scroll', this.trackScrolling);
 
@@ -103,22 +95,13 @@ class About extends React.Component {
              
             <div style={reveal ? animStyles.bounceInDown : animStyles.invisible}>
                 <Typography variant="h2" style={{ textAlign: "center", fontWeight: "700" }}>
-                    About me
+                    Ahmed Gabtni
                 </Typography>
             </div>
 
 
-            <div style={reveal ? animStyles.bounceIn : animStyles.invisible}>
-                <Paper className={classes.experience}>
-
-                    <Typography variant="h6" style={{ fontWeight: "700" }}>
-                        Experience  :
-                    </Typography>
-
-                </Paper>
-            </div>
         </StyleRoot>
 
     }
 }
-export default withStyles(useStyles)(About);
+export default withStyles(useStyles)(WelcomeScreen);

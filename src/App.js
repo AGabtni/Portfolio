@@ -10,7 +10,7 @@ import NavBar from './components/NavBar/NavBar';
 /** THREE JS IMPORTS
  */
 import * as THREE from "three";
-import {Tween, Easing} from "@tweenjs/tween.js/dist/tween.cjs"
+import * as TWEEN from "@tweenjs/tween.js/dist/tween.cjs"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass"
@@ -22,13 +22,11 @@ import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectio
 
 
 var scene = new THREE.Scene();
-var clock = new THREE.Clock();
 let renderer;
 let composer;
 let camera;
 let raycaster;
-var mouse = new THREE.Vector2(), INTERSECTED, selected;
-var radius = 100, theta = 0;
+var mouse = new THREE.Vector2(), INTERSECTED;
 var shaderMat = new THREE.ShaderMaterial({
 
   uniforms: {},
@@ -58,14 +56,17 @@ var shaderMat = new THREE.ShaderMaterial({
     "}"
   ].join("\n")
 });
-let objects =[];
-let light
+let objects = [];
+let light;
 var params = {
   exposure: 1,
   bloomStrength: 1,
   bloomThreshold: 0,
   bloomRadius: 0
 };
+var shrinkTweens = new TWEEN.Group();
+var unshrinkTweens = new TWEEN.Group();
+
 init();
 function init() {
 
@@ -84,7 +85,7 @@ function init() {
   raycaster = new THREE.Raycaster();
 
 
- 
+
   scene = new THREE.Scene();
   scene.fog = new THREE.Fog(0x000000, 1, 1000);
 
@@ -92,15 +93,14 @@ function init() {
 
   var geometry = new THREE.SphereBufferGeometry(1, 4, 4);
   //var material = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true });
-  
 
 
-  var mat2 = new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } );
+
 
   //Populate scene with meshes
   for (var i = 0; i < 100; i++) {
-
-    var mesh = new THREE.Mesh(geometry,  new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ));
+    var mat2 = new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff });
+    var mesh = new THREE.Mesh(geometry, mat2);
     mesh.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
     mesh.position.multiplyScalar(Math.random() * 400);
     mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
@@ -151,10 +151,14 @@ function init() {
 
 
   window.addEventListener('resize', onWindowResize, false);
-  document.addEventListener( 'mousemove', onMouseMove, false );
-  document.addEventListener('mousedown',onMouseClick, false);
-  animate()
-  console.log(scene)
+  document.addEventListener('mousemove', onMouseMove, false);
+  document.addEventListener('mousedown', onMouseClick, false);
+  animate();
+
+  
+
+
+
 }
 
 function animate() {
@@ -162,27 +166,26 @@ function animate() {
   render();
   requestAnimationFrame(animate);
 
- 
-  for(let i = 0 ; i < objects.length ; i++){
+
+  for (let i = 0; i < objects.length; i++) {
 
     objects[i].rotation.x += 0.005;
     objects[i].rotation.y += 0.01;
   }
 
-  
-  raycaster.setFromCamera( mouse, camera );
+
+  raycaster.setFromCamera(mouse, camera);
 
   //Check for if hovered on object
-  var intersects = raycaster.intersectObjects( scene.children );
-  if ( intersects.length > 0 ) {
+  var intersects = raycaster.intersectObjects(scene.children);
+  if (intersects.length > 0) {
 
-    var targetDistance = intersects[ 0 ].distance;
 
-    if ( INTERSECTED != intersects[ 0 ].object ) {
+    if (INTERSECTED !== intersects[0].object) {
 
-      if ( INTERSECTED ) INTERSECTED.material= new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } );
+      if (INTERSECTED) INTERSECTED.material = new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff });
 
-      INTERSECTED = intersects[ 0 ].object;
+      INTERSECTED = intersects[0].object;
       //INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
       //INTERSECTED.material.emissive.setHex( 0xff0000 );
       INTERSECTED.material = shaderMat;
@@ -190,15 +193,17 @@ function animate() {
 
   } else {
 
-    if ( INTERSECTED ) INTERSECTED.material= new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } );
+    if (INTERSECTED) INTERSECTED.material = new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff });
 
 
     INTERSECTED = null;
   }
   composer.render();
-  if(t !== undefined)
-    t.update()
 
+
+  shrinkTweens.update()
+  unshrinkTweens.update()
+  
 }
 
 function render() {
@@ -208,71 +213,74 @@ function render() {
   renderer.render(scene, camera);
 }
 
+function shrink(object, target, duration, delay, easing) {
+  //Check if object already has tween for shrinking
+  if (Object.keys(shrinkTweens._tweens).length > 0) {
 
-function coroutine(f) {
-  var o = f(); // instantiate the coroutine
-  o.next(); // execute until the first yield
-  return function(x) {
-      o.next(x);
+    for (let t = 0; t < Object.keys(shrinkTweens._tweens).length; t++) {
+
+      if (shrinkTweens._tweens[t]._object.name === object.name)
+        return;
+    }
+
   }
+
+  var t = new TWEEN.Tween(object);
+
+  var l_delay = (delay !== undefined) ? delay : 0;
+  var l_easing = (easing !== undefined) ? easing : TWEEN.Easing.Linear.None;
+
+
+  t.to(target, duration)
+  t.delay(l_delay)
+  t.easing(l_easing)
+  t.onUpdate(function () {
+    //Inflate
+    if (object.scale.distanceTo(target) > 0.2) {
+
+      object.scale.x -= 0.2;
+      object.scale.y -= 0.2;
+      object.scale.z -= 0.2;
+    } else {
+
+
+      object.visible = false;
+      t.stop();
+      
+  
+    }
+
+
+  })
+  t.start()
+  shrinkTweens.add(t);
+
+  
+  //console.log("Shrink : " + object.name)
 }
 
-var t;
-function setupObjectScaleAnimation( object, source, target, duration, delay, easing )
-{
-    var l_delay = ( delay !== undefined ) ? delay : 0;
-    var l_easing = ( easing !== undefined ) ? easing : Easing.Linear.None;
-
-         t = new Tween( source )
-        t.to( target, duration )
-        t.delay( l_delay )
-        t.easing( l_easing )
-        t.onUpdate( function() { 
-            //Inflate
-            if(object.scale.distanceTo(target) > 0.2 ){
-
-                object.scale.x -= 0.1;
-                object.scale.y -= 0.1;
-                object.scale.z -= 0.1;
-            }else{
-
-              
-                object.visible = false;
-              
-            }
 
 
-         } )
-        t.start();
-        console.log( t);
-
-
-        //Hint  : Twin chain : https://github.com/tweenjs/tween.js/blob/master/docs/user_guide.md
-}
-
-
-
-function onMouseClick( event ) {
+function onMouseClick(event) {
 
   event.preventDefault();
 
-  if(INTERSECTED){
-    
-    setupObjectScaleAnimation( INTERSECTED,
-      { x: 1, y: 1, z: 1 }, { x: 0, y: 0, z: 0 },
-      2000, 500, Easing.Linear.None );
-    
-     
-    
+  if (INTERSECTED) {
+
+    shrink(INTERSECTED,
+      { x: 0, y: 0, z: 0 },
+      2000, TWEEN.Easing.Linear.None);
+
+
   }
 
 }
-function onMouseMove( event ) {
+function onMouseMove(event) {
 
   event.preventDefault();
 
-  mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-  mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
 }
 function onWindowResize() {
@@ -370,6 +378,6 @@ class App extends React.Component {
     return <NavBar list={this.state.section} toggleItem={this.toggleSelected} ></NavBar>
 
   }
-  
+
 }
 export default withStyles(useStyles)(App);

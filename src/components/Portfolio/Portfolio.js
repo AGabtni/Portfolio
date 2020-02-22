@@ -11,7 +11,7 @@ const useStyles = theme => ({
     container: {
         display: "flex",
         flexGrow: 1,
-        marginTop : "150px",
+        margin : "100px 0 50px 0 ",
         flexDirection : "column"
     },
 

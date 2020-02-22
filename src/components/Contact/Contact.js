@@ -8,7 +8,7 @@ const useStyles = theme => ({
     container: {
         display: "flex",
         width: "100%",
-        height:"100%",
+        height : "100vh",
         flexDirection: "column",
         backgroundColor: "rgba(0,0,0,0)",
         marginTop: "100px",

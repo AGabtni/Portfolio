@@ -21,21 +21,7 @@ const useStyles = theme => ({
 
 });
 
-const animStyles = {
 
-    bounceIn: {
-        animation: 'x 3s',
-        animationName: Radium.keyframes(bounceIn, 'bounceIn'),
-
-    },
-
-    invisible: {
-
-        opacity: '0.0',
-    }
-
-
-}
 
 
 class ProjectCard extends React.Component {

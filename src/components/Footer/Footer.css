@@ -1,0 +1,7 @@
+.footer-reveal{
+
+
+    opacity: 1.0;
+    transition: opacity 500ms ease-in;
+}
+
