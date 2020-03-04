@@ -10,23 +10,30 @@ const useStyles = theme => ({
         width: "100%",
         height : "100vh",
         flexDirection: "column",
-        backgroundColor: "rgba(0,0,0,0)",
         marginTop: "100px",
+    },
+
+    wrapper:{
+
+        display: "flex",
+        flexDirection: "column",
+
     },
 
     contactContainer: {
         padding: "50px",
         display: 'flex',
-        flexDirection: "column",
+        flexDirection: "row",
         backgroundColor: "rgba(0,0,0,0)",
         alignItems: "start"
     },
+    
+    container: {
 
-
-    inputField: {
-        marginTop: "50px",
-        width: "80%"
+        
     }
+
+    
 });
 
 const animStyles = {
@@ -112,12 +119,19 @@ class Contact extends React.Component {
      
                 <div  className={classes.contactContainer}
                 style={reveal ? animStyles.bounceInDown : animStyles.invisible} >
+                    <div className={classes.wrapper}>
                     <TextField className={inputField}
-                        id="outlined-basic" label="Name"
-                        variant="outlined" />
+                        id="outlined-basic" 
+                        name="name"
+                        label="Name"
+                        variant="outlined"
+                        margin="normal"  />
                     <TextField className={inputField}
-                        id="outlined-basic" label="E-mail"
-                        variant="outlined" />
+                        id="outlined-basic" 
+                        name="email"
+                        label="E-mail"
+                        variant="outlined"
+                        margin="normal" />
 
                     <TextField
                         className={inputField}
@@ -126,7 +140,10 @@ class Contact extends React.Component {
                         multiline
                         rows="10"
                         variant="outlined"
+                        margin="normal" 
                     />
+                    </div>
+                    
                 </div>
         </StyleRoot>
 
