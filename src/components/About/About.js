@@ -107,7 +107,18 @@ class About extends React.Component {
                 </Typography>
             </div>
 
+            <div style={reveal ? animStyles.bounceIn : animStyles.invisible}>
+               <div>
 
+
+               </div>
+               <div>
+
+               </div>
+               <div>
+                   
+               </div>
+            </div>
             <div style={reveal ? animStyles.bounceIn : animStyles.invisible}>
                 <Paper className={classes.experience}>
 

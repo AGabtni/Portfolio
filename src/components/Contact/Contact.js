@@ -8,12 +8,12 @@ const useStyles = theme => ({
     container: {
         display: "flex",
         width: "100%",
-        height : "100vh",
+        height: "100vh",
         flexDirection: "column",
         marginTop: "100px",
     },
 
-    wrapper:{
+    wrapper: {
 
         display: "flex",
         flexDirection: "column",
@@ -27,13 +27,13 @@ const useStyles = theme => ({
         backgroundColor: "rgba(0,0,0,0)",
         alignItems: "start"
     },
-    
+
     container: {
 
-        
+
     }
 
-    
+
 });
 
 const animStyles = {
@@ -116,18 +116,17 @@ class Contact extends React.Component {
             </div>
 
 
-     
-                <div  className={classes.contactContainer}
+            <div className={classes.contactContainer}
                 style={reveal ? animStyles.bounceInDown : animStyles.invisible} >
-                    <div className={classes.wrapper}>
+                <div className={classes.wrapper}>
                     <TextField className={inputField}
-                        id="outlined-basic" 
+                        id="outlined-basic"
                         name="name"
                         label="Name"
                         variant="outlined"
-                        margin="normal"  />
+                        margin="normal" />
                     <TextField className={inputField}
-                        id="outlined-basic" 
+                        id="outlined-basic"
                         name="email"
                         label="E-mail"
                         variant="outlined"
@@ -140,11 +139,10 @@ class Contact extends React.Component {
                         multiline
                         rows="10"
                         variant="outlined"
-                        margin="normal" 
-                    />
-                    </div>
-                    
+                        margin="normal" />
                 </div>
+
+            </div>
         </StyleRoot>
 
     }

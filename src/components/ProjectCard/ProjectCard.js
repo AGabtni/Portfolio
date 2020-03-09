@@ -14,7 +14,8 @@ const useStyles = theme => ({
         textAlign: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '10px'
+        padding: '10px',
+        margin : "10px"
     },
 
 

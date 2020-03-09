@@ -19,6 +19,7 @@ const useStyles = theme => ({
         marginTop : '100px',
         display: "flex",
         flexGrow: 1,
+        padding:'20px'
         
     }
 });
@@ -89,7 +90,7 @@ class Portfolio extends React.Component {
         const { projects } = this.state;
 
         return <StyleRoot >
-            <Container maxWidth="lg" className={classes.container}>
+            <Container maxWidth="lg" className={classes.container} >
 
 
 
@@ -99,7 +100,7 @@ class Portfolio extends React.Component {
                     </Typography>
                 </div>
                 
-                <Grid justify="center"  container   className={classes.gridList} >
+                <Grid container justify="center" className={classes.gridList} spacing={2} >
 
 
 
