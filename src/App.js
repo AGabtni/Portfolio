@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core';
 
 import './App.css';
 import NavBar from './components/NavBar/NavBar';
+import { ThemeProvider, createMuiTheme   } from '@material-ui/core/styles';
 
 
 
@@ -71,11 +72,6 @@ init();
 function init() {
 
   //--Renderer init : 
-
-  // renderer = new THREE.WebGLRenderer();
-  // renderer.setPixelRatio( window.devicePixelRatio );
-  // renderer.setSize( window.innerWidth, window.innerHeight );
-  // document.body.appendChild( renderer.domElement );
 
   const canvas = document.querySelector('#c');
   canvas.width = document.body.clientWidth;
@@ -302,6 +298,12 @@ const useStyles = theme => ({
 
 });
 
+const theme = createMuiTheme({
+  typography:  {
+    fontFamily: ["'Sen'"]
+  }
+});
+
 
 // kick off the polyfill!
 smoothscroll.polyfill();
@@ -375,7 +377,11 @@ class App extends React.Component {
   }
 
   render() {
-    return <NavBar list={this.state.section} toggleItem={this.toggleSelected} ></NavBar>
+
+    
+    return <ThemeProvider theme={theme}>
+      <NavBar list={this.state.section} toggleItem={this.toggleSelected} ></NavBar>
+      </ThemeProvider>
 
   }
 

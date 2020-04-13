@@ -1,19 +1,21 @@
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  
+
+  font-family: 'Sen', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgba(190, 35, 35, 0.829);
+  background-color: #cb8589;
   display: flex;
   flex-direction: column;
 
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+code{
+  font-family: 'Sen', sans-serif;
+
+
 }
 
 .overlay{
@@ -43,7 +45,8 @@ code {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: lightgray;
+  background-color: #e8d2ae;
+  
 }
 
 .svgSection{
@@ -97,7 +100,7 @@ code {
 }
 
 #curve path{
-  fill : darkslategrey
+  fill : #796465
 
 }
 #contact{
@@ -105,11 +108,12 @@ code {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: darkslategrey;
+  background-color: #796465;
   color : white;
 
 }
-.footer-hide{
-  opacity: 0.0;
-  transition: opacity 500ms ease-out;
+
+#footer{
+
+  background-color: #d7b29d ;
 }

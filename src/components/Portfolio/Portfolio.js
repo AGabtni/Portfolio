@@ -109,6 +109,9 @@ class Portfolio extends React.Component {
                             <ProjectCard
                                 key={item.id}
                                 title={item.title}
+                                img = {item.img}
+                                link = {item.link}
+                                repo = {item.repo}
                             >
 
                             </ProjectCard>

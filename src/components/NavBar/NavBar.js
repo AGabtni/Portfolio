@@ -1,6 +1,10 @@
 import React from 'react';
 import Radium, { StyleRoot } from 'radium';
-import { AppBar, Toolbar, withStyles, IconButton, Typography, Button, ButtonGroup } from '@material-ui/core';
+import { AppBar, Toolbar, withStyles, IconButton, Typography, Button, ButtonGroup, Grid, Link } from '@material-ui/core';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+
+
 import MenuIcon from '@material-ui/icons/Menu';
 import { bounceInLeft, fadeInDown, fadeOutUp } from 'react-animations'
 import './NavBar.css';
@@ -10,6 +14,7 @@ const useStyles = theme => ({
     appbar: {
         display: 'flex',
         flexGrow: '1',
+        displayFlex: "column",
         position: 'relative',
         backgroundColor: 'rgba(0,0,0,0.5)'
 
@@ -19,10 +24,10 @@ const useStyles = theme => ({
         position: 'static',
         textAlign: 'center'
     },
-    menu:{
+    menu: {
     },
     menuButton: {
-        marginLeft : '50px'
+        marginLeft: '50px'
 
     },
     title: {
@@ -31,9 +36,18 @@ const useStyles = theme => ({
 
     navItem: {
         padding: '20px',
-        width: 'inherit'
-
+        width: 'inherit',
+        color: "white",
     },
+    navItemContent: {
+        fontWeight: "700"
+    },
+    socMediaLink: {
+        margin: 10
+
+    }
+
+
 
 });
 
@@ -80,7 +94,7 @@ class NavBar extends React.Component {
     }
 
     componentDidMount() {
-
+        this.resize();
         window.addEventListener('scroll', this.handleScroll);
     }
 
@@ -146,12 +160,12 @@ class NavBar extends React.Component {
                             <ButtonGroup size="large" className={classes.menu}>
 
                                 {list.map((item) => (
-                                    <div className="hvr-grow"  key={item.id} >
+                                    <div className="hvr-grow" key={item.id} >
                                         <Button className={classes.navItem}
                                             key={item.id}
                                             onClick={() => this.props.toggleItem(item.id, item.key)}>
 
-                                            {item.title}
+                                            <Typography className={classes.navItemContent}>{item.title}</Typography>
 
                                         </Button>
                                     </div>
@@ -189,9 +203,9 @@ class NavBar extends React.Component {
                                                     key={item.id}
                                                     onClick={() => { this.toggleNavMenu(); this.props.toggleItem(item.id, item.key); }}>
 
-                                                    <span style={this.state.listOpen ? animStyles.bounceInLeft : null}>
+                                                    <Typography className={classes.navItemContent} style={this.state.listOpen ? animStyles.bounceInLeft : null}>
                                                         {item.title}
-                                                    </span>
+                                                    </Typography>
                                                 </Button>
                                             </div>
 
@@ -204,6 +218,21 @@ class NavBar extends React.Component {
                         </>
 
                     }
+
+                    <Grid item xs={8} style={{ position: "absolute", right: 40, top : 15 }}>
+                        <Link href="https://github.com/AGabtni/" 
+                             className={classes.socMediaLink}
+                             target="_blanck">
+                            <GitHubIcon fontSize="large" color="action" />
+                        </Link>
+                        <Link 
+                            target="_blanck"
+                            href="https://www.linkedin.com/in/ahmed-gabtni-7312a41a6/">
+                            <LinkedInIcon color="action" fontSize="large" />
+                        </Link>
+
+                    </Grid>
+
                 </AppBar>
 
             </div>
