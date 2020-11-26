@@ -15,8 +15,9 @@ const useStyles = theme => ({
         flexDirection : "column",
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: "#cb8589",
-        border: "10px solid #796465",
+        backgroundColor: "#2C3E50",
+        border: "10px solid #2C3E50",
+        color: "white"
 
 
     },
@@ -30,15 +31,22 @@ const useStyles = theme => ({
     },
     employer:{
         marginTop : 20,
+        color: "white",
+        fontStyle: "italic"
 
 
     },
     timeStamp: {
 
         marginTop : 20,
-        fontWeight : "700"
+        fontWeight : "700",
+        color: "white"
+
     },
-    
+    listItemText : {
+        color: "white",
+
+    },
 
 });
 
@@ -67,7 +75,7 @@ class SimpleDialog extends React.Component {
 
         const { classes, open, title, description, duration, employer } = this.props;
 
-        return (<StyleRoot  >
+        return (<StyleRoot>
             <Dialog       
                 aria-labelledby="responsive-dialog-title"
                 aria-describedby="responsive-dialog-description"
@@ -81,15 +89,15 @@ class SimpleDialog extends React.Component {
                 <DialogContent   id="responsive-dialog-description">
                     <DialogContentText>
                         <Typography className={classes.employer} variant="body1">{employer}</Typography>
-                        <Typography className={classes.timeStamp} variant="body2">{duration}</Typography>
+                        <Typography className={classes.timeStamp} variant="body1">{duration}</Typography>
 
                     </DialogContentText>    
-                    <DialogContentText>
+                    <DialogContentText style={{color: "white"}}>
                         {   
                             description.map(desc => (
                                 <ListItem>
-                                    <Icon className={classes.listItemText} >label_important</Icon>
-                                    <Typography variant="h6">{desc} </Typography>
+                                    <Icon className={classes.listItemText}>label_important</Icon>
+                                    <Typography variant="body1"> {desc} </Typography>
                                 </ListItem>
                             ))
                         }

@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core';
 
 import './App.css';
 import NavBar from './components/NavBar/NavBar';
-import { ThemeProvider, createMuiTheme   } from '@material-ui/core/styles';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 
 
@@ -27,131 +27,132 @@ let renderer;
 let composer;
 let camera;
 let raycaster;
-var mouse = new THREE.Vector2(), INTERSECTED;
+var mouse = new THREE.Vector2(),
+    INTERSECTED;
 var shaderMat = new THREE.ShaderMaterial({
 
-  uniforms: {},
+    uniforms: {},
 
-  vertexShader: [
-    "varying vec2 vUV;",
-    "varying vec3 vNormal;",
+    vertexShader: [
+        "varying vec2 vUV;",
+        "varying vec3 vNormal;",
 
-    "void main() {",
+        "void main() {",
 
-    "vUV = uv;",
-    "vNormal = vec3( normal );",
-    "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
+        "vUV = uv;",
+        "vNormal = vec3( normal );",
+        "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
 
-    "}"
-  ].join("\n"),
+        "}"
+    ].join("\n"),
 
-  fragmentShader: [
-    "varying vec2 vUV;",
-    "varying vec3 vNormal;",
+    fragmentShader: [
+        "varying vec2 vUV;",
+        "varying vec3 vNormal;",
 
-    "void main() {",
+        "void main() {",
 
-    "vec4 c = vec4( abs( vNormal ) + vec3( vUV, 0.0 ), 0.0 );",
-    "gl_FragColor = c;",
+        "vec4 c = vec4( abs( vNormal ) + vec3( vUV, 0.0 ), 0.0 );",
+        "gl_FragColor = c;",
 
-    "}"
-  ].join("\n")
+        "}"
+    ].join("\n")
 });
 let objects = [];
 let light;
 var params = {
-  exposure: 1,
-  bloomStrength: 1,
-  bloomThreshold: 0,
-  bloomRadius: 0
+    exposure: 1,
+    bloomStrength: 1,
+    bloomThreshold: 0,
+    bloomRadius: 0
 };
 var shrinkTweens = new TWEEN.Group();
 var unshrinkTweens = new TWEEN.Group();
 
 init();
+
 function init() {
 
-  //--Renderer init : 
+    //--Renderer init : 
 
-  const canvas = document.querySelector('#c');
-  canvas.width = document.body.clientWidth;
-  canvas.height = document.body.clientHeight;
-  renderer = new THREE.WebGLRenderer({ canvas });
-
-  raycaster = new THREE.Raycaster();
-
-
-
-  scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0x000000, 1, 1000);
+    const canvas = document.querySelector('#c');
+    canvas.width = document.body.clientWidth;
+    canvas.height = document.body.clientHeight;
+    renderer = new THREE.WebGLRenderer({ canvas });
+    renderer.setClearColor(new THREE.Color(0x000000));
+    raycaster = new THREE.Raycaster();
 
 
 
-  var geometry = new THREE.SphereBufferGeometry(1, 4, 4);
-  //var material = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true });
+    scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x000000, 1, 1000);
+
+
+    var geometry = new THREE.SphereBufferGeometry(1, 4, 4);
+    //var material = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true });
 
 
 
 
-  //Populate scene with meshes
-  for (var i = 0; i < 100; i++) {
-    var mat2 = new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff });
-    var mesh = new THREE.Mesh(geometry, mat2);
-    mesh.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
-    mesh.position.multiplyScalar(Math.random() * 400);
-    mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
-    mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 50;
-    mesh.name = i;
-    scene.add(mesh)
-    objects.push(mesh);
+    //Populate scene with meshes
+    for (var i = 0; i < 100; i++) {
+        var mat2 = new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff });
+        var mesh = new THREE.Mesh(geometry, mat2);
+        mesh.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
+        mesh.position.multiplyScalar(Math.random() * 400);
+        mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
+        mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 50;
+        mesh.name = i;
+        scene.add(mesh)
+        objects.push(mesh);
 
-  }
-  //--Camera set up
-  camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
-  camera.position.z = 400;
-  scene.add(camera)
+    }
+    //--Camera set up
+    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+    camera.position.z = 400;
+    scene.add(camera)
 
-  //--Lightning set up
-  scene.add(new THREE.AmbientLight(0x222222));
-  light = new THREE.DirectionalLight(0xffffff);
-  light.position.set(1, 1, 1);
-  scene.add(light);
-
-
-  //--Postprocessing : 
-  composer = new EffectComposer(renderer);
+    //--Lightning set up
+    scene.add(new THREE.AmbientLight(0x222222));
+    light = new THREE.DirectionalLight(0xffffff);
+    light.position.set(1, 1, 1);
+    scene.add(light);
 
 
-  //Dot postprocessing just for testing :
-  composer.addPass(new RenderPass(scene, camera))
-
-  var effect = new ShaderPass(DotScreenShader);
-  effect.uniforms['scale'].value = 4;
-
-  //Unreal bloom effect : 
-
-  var bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-  bloomPass.threshold = params.bloomThreshold;
-  bloomPass.strength = params.bloomStrength;
-  bloomPass.radius = params.bloomRadius;
-  composer.addPass(bloomPass);
+    //--Postprocessing : 
+    composer = new EffectComposer(renderer);
 
 
+    //Dot postprocessing just for testing :
+    composer.addPass(new RenderPass(scene, camera))
 
-  //Film effect : 
+    var effect = new ShaderPass(DotScreenShader);
+    effect.uniforms['scale'].value = 4;
 
-  var effectFilmBW = new FilmPass(0.35, 0.5, 2048, true);
-  var gammaCorrection = new ShaderPass(GammaCorrectionShader);
-  composer.addPass(effectFilmBW);
-  composer.addPass(gammaCorrection);
+    //Unreal bloom effect : 
+
+    var bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+    bloomPass.threshold = params.bloomThreshold;
+    bloomPass.strength = params.bloomStrength;
+    bloomPass.radius = params.bloomRadius;
+    composer.addPass(bloomPass);
 
 
-  window.addEventListener('resize', onWindowResize, false);
-  document.addEventListener('mousemove', onMouseMove, false);
-  document.addEventListener('mousedown', onMouseClick, false);
-  animate();
 
-  
+    //Film effect : 
+
+    var effectFilmBW = new FilmPass(0.35, 0.5, 2048, true);
+    var gammaCorrection = new ShaderPass(GammaCorrectionShader);
+    composer.addPass(effectFilmBW);
+    composer.addPass(gammaCorrection);
+
+
+    window.addEventListener('resize', onWindowResize, false);
+    document.addEventListener('mousemove', onMouseMove, false);
+    document.addEventListener('mousedown', onMouseClick, false);
+    animate();
+
+
 
 
 
@@ -159,149 +160,150 @@ function init() {
 
 function animate() {
 
-  render();
-  requestAnimationFrame(animate);
+    render();
+    requestAnimationFrame(animate);
 
 
-  for (let i = 0; i < objects.length; i++) {
+    for (let i = 0; i < objects.length; i++) {
 
-    objects[i].rotation.x += 0.005;
-    objects[i].rotation.y += 0.01;
-  }
-
-
-  raycaster.setFromCamera(mouse, camera);
-
-  //Check for if hovered on object
-  var intersects = raycaster.intersectObjects(scene.children);
-  if (intersects.length > 0) {
-
-
-    if (INTERSECTED !== intersects[0].object) {
-
-      if (INTERSECTED) INTERSECTED.material = new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff });
-
-      INTERSECTED = intersects[0].object;
-      //INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-      //INTERSECTED.material.emissive.setHex( 0xff0000 );
-      INTERSECTED.material = shaderMat;
+        objects[i].rotation.x += 0.005;
+        objects[i].rotation.y += 0.01;
     }
 
-  } else {
 
-    if (INTERSECTED) INTERSECTED.material = new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff });
+    raycaster.setFromCamera(mouse, camera);
 
-
-    INTERSECTED = null;
-  }
-  composer.render();
+    //Check for if hovered on object
+    var intersects = raycaster.intersectObjects(scene.children);
+    if (intersects.length > 0) {
 
 
-  shrinkTweens.update()
-  unshrinkTweens.update()
-  
+        if (INTERSECTED !== intersects[0].object) {
+
+            if (INTERSECTED) INTERSECTED.material = new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff });
+
+            INTERSECTED = intersects[0].object;
+            //INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+            //INTERSECTED.material.emissive.setHex( 0xff0000 );
+            INTERSECTED.material = shaderMat;
+        }
+
+    } else {
+
+        if (INTERSECTED) INTERSECTED.material = new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff });
+
+
+        INTERSECTED = null;
+    }
+    composer.render();
+
+
+    shrinkTweens.update()
+    unshrinkTweens.update()
+
 }
 
 function render() {
 
 
 
-  renderer.render(scene, camera);
+    renderer.render(scene, camera);
 }
 
 function shrink(object, target, duration, delay, easing) {
-  //Check if object already has tween for shrinking
-  if (Object.keys(shrinkTweens._tweens).length > 0) {
+    //Check if object already has tween for shrinking
+    if (Object.keys(shrinkTweens._tweens).length > 0) {
 
-    for (let t = 0; t < Object.keys(shrinkTweens._tweens).length; t++) {
+        for (let t = 0; t < Object.keys(shrinkTweens._tweens).length; t++) {
 
-      if (shrinkTweens._tweens[t]._object.name === object.name)
-        return;
+            if (shrinkTweens._tweens[t]._object.name === object.name)
+                return;
+        }
+
     }
 
-  }
+    var t = new TWEEN.Tween(object);
 
-  var t = new TWEEN.Tween(object);
-
-  var l_delay = (delay !== undefined) ? delay : 0;
-  var l_easing = (easing !== undefined) ? easing : TWEEN.Easing.Linear.None;
+    var l_delay = (delay !== undefined) ? delay : 0;
+    var l_easing = (easing !== undefined) ? easing : TWEEN.Easing.Linear.None;
 
 
-  t.to(target, duration)
-  t.delay(l_delay)
-  t.easing(l_easing)
-  t.onUpdate(function () {
-    //Inflate
-    if (object.scale.distanceTo(target) > 0.2) {
+    t.to(target, duration)
+    t.delay(l_delay)
+    t.easing(l_easing)
+    t.onUpdate(function() {
+        //Inflate
+        if (object.scale.distanceTo(target) > 0.2) {
 
-      object.scale.x -= 0.2;
-      object.scale.y -= 0.2;
-      object.scale.z -= 0.2;
-    } else {
-
-
-      object.visible = false;
-      t.stop();
-      
-  
-    }
+            object.scale.x -= 0.2;
+            object.scale.y -= 0.2;
+            object.scale.z -= 0.2;
+        } else {
 
 
-  })
-  t.start()
-  shrinkTweens.add(t);
+            object.visible = false;
+            t.stop();
 
-  
-  //console.log("Shrink : " + object.name)
+
+        }
+
+
+    })
+    t.start()
+    shrinkTweens.add(t);
+
+
+    //console.log("Shrink : " + object.name)
 }
 
 
 
 function onMouseClick(event) {
 
-  event.preventDefault();
+    event.preventDefault();
 
-  if (INTERSECTED) {
+    if (INTERSECTED) {
 
-    shrink(INTERSECTED,
-      { x: 0, y: 0, z: 0 },
-      2000, TWEEN.Easing.Linear.None);
+        shrink(INTERSECTED, { x: 0, y: 0, z: 0 },
+            2000, TWEEN.Easing.Linear.None);
 
 
-  }
+    }
 
 }
+
 function onMouseMove(event) {
 
-  event.preventDefault();
+    event.preventDefault();
 
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
 }
+
 function onWindowResize() {
 
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
 
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  composer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    composer.setSize(window.innerWidth, window.innerHeight);
 }
 
 
 
 const useStyles = theme => ({
-  App: {
+    App: {
 
 
-  },
+    },
 
 });
 
 const theme = createMuiTheme({
-  typography:  {
-    fontFamily: ["'Sen'"]
-  }
+    typography: {
+        fontFamily: ["'Sen'"]
+    }
 });
 
 
@@ -310,80 +312,79 @@ smoothscroll.polyfill();
 class App extends React.Component {
 
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      section: [
-        {
-          id: 0,
-          title: 'Home',
-          selected: false,
-          selector: "c",
-          key: 'section'
+    constructor(props) {
+        super(props);
+        this.state = {
+            section: [{
+                    id: 0,
+                    title: 'Home',
+                    selected: false,
+                    selector: "c",
+                    key: 'section'
 
-        },
-        {
-          id: 1,
-          title: 'Portfolio',
-          selected: false,
-          selector: "portfolio",
-          key: 'section'
+                },
+                {
+                    id: 1,
+                    title: 'Projects',
+                    selected: false,
+                    selector: "portfolio",
+                    key: 'section'
 
 
-        },
-        {
-          id: 2,
-          title: 'About',
-          selected: false,
-          selector: "about",
-          key: 'section'
+                },
+                {
+                    id: 2,
+                    title: 'About',
+                    selected: false,
+                    selector: "about",
+                    key: 'section'
 
-        },
-        {
-          id: 3,
-          title: 'Contact',
-          selected: false,
-          selector: "curve",
-          key: 'section'
+                },
+                {
+                    id: 3,
+                    title: 'Contact',
+                    selected: false,
+                    selector: "curve",
+                    key: 'section'
 
-        },
-
+                },
 
 
 
 
-      ]
+
+            ]
+        }
+
+
+
+
+
+
     }
 
 
 
+    //Function passed to navbar to select an item from the mobile dropdown : 
+    toggleSelected = (id, key) => {
+        let temp = this.state[key]
+        temp[id].selected = !temp[id].selected
+        this.setState({
+            [key]: temp
+        })
 
 
+        document.querySelector("#" + temp[id].selector).scrollIntoView({ behavior: 'smooth' });
+    }
 
-  }
-
-
-
-  //Function passed to navbar to select an item from the mobile dropdown : 
-  toggleSelected = (id, key) => {
-    let temp = this.state[key]
-    temp[id].selected = !temp[id].selected
-    this.setState({
-      [key]: temp
-    })
+    render() {
 
 
-    document.querySelector("#" + temp[id].selector).scrollIntoView({ behavior: 'smooth' });
-  }
+        return <ThemeProvider theme = { theme } >
+            <NavBar list = { this.state.section }
+        toggleItem = { this.toggleSelected } > </NavBar> </ThemeProvider>
 
-  render() {
-
-    
-    return <ThemeProvider theme={theme}>
-      <NavBar list={this.state.section} toggleItem={this.toggleSelected} ></NavBar>
-      </ThemeProvider>
-
-  }
+    }
 
 }
 export default withStyles(useStyles)(App);

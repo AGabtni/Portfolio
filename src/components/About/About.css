@@ -1,83 +1,74 @@
-
 .experience {
-    
-    
-    background-color: rosybrown;
+    background-color: #1ABC9C;
     display: flex;
-    margin : 50px  50px;
+    margin: 50px 50px;
     min-height: 200px;
     min-width: 350px;
     border-radius: 10px;
     justify-content: center;
     text-align: center;
 }
-.experience-intro{
+
+.experience-intro {
     display: flex;
     padding: 20px;
-    transition:  0.5s ease-in;
+    transition: 0.5s ease-in;
     color: white;
     flex-direction: column;
-    justify-content : center;
+    justify-content: center;
     text-shadow: 2px 2px black;
-
-    
 }
 
-.preview{
-    position : absolute;
+.preview {
+    position: absolute;
     display: flex;
     min-height: 200px;
     min-width: 350px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 10px; 
+    border-radius: 10px;
     opacity: 0.01;
-    transition:  0.5s ease-in;
-   
+    transition: 0.5s ease-in;
 }
 
 #container {
-    background: url(../../res/tlss.jpg);
+    background-color: #2C3E50;
     background-size: 110%;
     background-repeat: no-repeat;
     background-position: center;
     filter: brightness(100%);
     filter: contrast(70%);
-
     transition: all 1.5s;
 }
-#container:hover, #container2:hover  {
 
+#container:hover,
+#container2:hover {
     filter: brightness(100%);
     filter: contrast(100%);
     background-size: 150%;
 }
 
-
-#container2{
-    background: url(../../res/ta.jpg);
+#container2 {
+    background-color: #2C3E50;
     background-size: 110%;
     background-repeat: no-repeat;
     background-position: center;
     filter: brightness(100%);
     filter: contrast(70%);
-
     transition: all 1.5s;
 }
 
-@keyframes FadeIn { 
+@keyframes FadeIn {
     0% {
-      opacity: 0;
-      transform: scale(.1);
+        opacity: 0;
+        transform: scale(.1);
     }
-  
     85% {
-      opacity: 1;
-      transform: scale(1.05);
+        opacity: 1;
+        transform: scale(1.05);
     }
     100% {
-      transform: scale(1);
+        transform: scale(1);
     }
-  }
-  
+}

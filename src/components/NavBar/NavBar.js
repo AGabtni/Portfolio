@@ -16,8 +16,8 @@ const useStyles = theme => ({
         flexGrow: '1',
         displayFlex: "column",
         position: 'relative',
-        backgroundColor: 'rgba(0,0,0,0.5)'
-
+        //backgroundColor: 'rgba(0,0,0,0.5)'
+        backgroundColor: '#2C3E50'
     },
     bar: {
         flexGrow: 1,
@@ -43,7 +43,8 @@ const useStyles = theme => ({
         fontWeight: "700"
     },
     socMediaLink: {
-        margin: 10
+        margin: 10,
+        color: "white",
 
     }
 
@@ -137,8 +138,12 @@ class NavBar extends React.Component {
         if (window.scrollY >= window.innerHeight) {
 
             document.getElementById("appbar").style.position = "fixed"
+            document.getElementById("appbar").style.color = "#2C3E50"
+
         } else {
             document.getElementById("appbar").style.position = "relative"
+            document.getElementById("appbar").style.color = "#2C3E50"
+
         }
 
 
@@ -184,8 +189,9 @@ class NavBar extends React.Component {
                                 <IconButton onClick={() => this.toggleNavMenu()}
                                     edge="end"
                                     color="inherit"
-                                    aria-label="open drawer">
-
+                                    aria-label="open drawer"
+                                    style = {{color:"#FFFFFF"}}>
+                                   
                                     <MenuIcon />
                                 </IconButton>
                             </Toolbar>
@@ -223,12 +229,13 @@ class NavBar extends React.Component {
                         <Link href="https://github.com/AGabtni/" 
                              className={classes.socMediaLink}
                              target="_blanck">
-                            <GitHubIcon fontSize="large" color="action" />
+                            <GitHubIcon fontSize="large" color="#FFFFFF"/>
                         </Link>
                         <Link 
+                            className={classes.socMediaLink}
                             target="_blanck"
                             href="https://www.linkedin.com/in/ahmed-gabtni-7312a41a6/">
-                            <LinkedInIcon color="action" fontSize="large" />
+                            <LinkedInIcon color="#FFFFFF" fontSize="large" />
                         </Link>
 
                     </Grid>

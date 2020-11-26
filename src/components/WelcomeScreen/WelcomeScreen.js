@@ -16,18 +16,21 @@ const useStyles = theme => ({
     },
 
     buttonContainer: {
-        
+
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        height: "100%"  
+        height: "100%",
+
 
     },
 
-    buttonContent:{
-        fontWeight : "700",
-        fontSize: "x-large"
+    buttonContent: {
+        fontWeight: "700",
+        fontSize: "x-large",
+        color: "#FFFFFF",
+
 
     },
 
@@ -45,6 +48,11 @@ const useStyles = theme => ({
         flexDirection: "row",
 
 
+    },
+    mainHeader: {
+        textAlign: "center", 
+        fontWeight: "900",
+        color: "#2C3E50",
     }
 });
 
@@ -116,7 +124,7 @@ class WelcomeScreen extends React.Component {
         return <StyleRoot className={classes.container}>
 
             <div style={animStyles.bounceInDown}>
-                <Typography variant="h2" style={{ textAlign: "center", fontWeight: "900" }}>
+                <Typography variant="h1" className={classes.mainHeader} >
                     Ahmed Gabtni
                 </Typography>
 
@@ -124,7 +132,7 @@ class WelcomeScreen extends React.Component {
             <div className={classes.buttonContainer}>
                 <Button className="nav-button draw"
                     onClick={this.toggleButton}
-                    size="large">
+                    size="large" style={{ backgroundColor: "#2C3E50" }}>
                     <Typography className={classes.buttonContent} >
                         view my resume
                     </Typography>
@@ -132,7 +140,7 @@ class WelcomeScreen extends React.Component {
             </div>
 
         </StyleRoot>
-    
+
     }
 }
 export default withStyles(useStyles)(WelcomeScreen);

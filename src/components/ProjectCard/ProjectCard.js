@@ -17,7 +17,23 @@ const useStyles = theme => ({
         justifyContent: 'center',
         padding: '10px',
         margin: "10px",
+        backgroundColor: "#1ABC9C",
+
     },
+
+    header: {
+        color: "#FFFFFF",
+        textAlign: "center", 
+        fontWeight: "700", 
+        margin: 10
+    },
+
+    button:{
+        display: "flex", 
+        margin: '20px',
+        color: "#FFFFFF",
+        backgroundColor: "#2C3E50",
+    }
 
 
 
@@ -36,8 +52,8 @@ class ProjectCard extends React.Component {
         super(props);
 
         const { link, repo } = props
-        this.state = { "link": link,"repo": repo };
-        
+        this.state = { "link": link, "repo": repo };
+
 
         this.handleClickLink = this.handleClickLink.bind(this);
         this.handleClickRepo = this.handleClickRepo.bind(this);
@@ -68,11 +84,11 @@ class ProjectCard extends React.Component {
         const { classes, title, link, repo } = this.props;
 
 
-        return <StyleRoot className="hvr-bob">
+        return <StyleRoot className="project-card hvr-bob">
 
             {title.length > 0 &&
                 <Paper className={classes.container}>
-                    <Typography variant="h2" style={{ textAlign: "center", fontWeight: "700", margin: 10 }}>
+                    <Typography variant="h2" className={classes.header}>
                         <div>{title}</div>
                     </Typography>
                     {link.length > 0 &&
@@ -80,7 +96,7 @@ class ProjectCard extends React.Component {
                             <Button
                                 variant="contained"
                                 onClick={this.handleClickLink}
-                                style={{ display: "flex", margin: '20px' }}>
+                                className={classes.button}>
 
                                 <Typography variant="h6" style={{ fontWeight: "700" }}>live demo</Typography>
 
@@ -98,7 +114,7 @@ class ProjectCard extends React.Component {
 
                                 variant="contained"
                                 onClick={this.handleClickRepo}
-                                style={{ display: "flex", margin: '20px' }}>
+                                className={classes.button}>
 
                                 <Typography variant="h6" style={{ fontWeight: "700" }}>github repository</Typography>
 

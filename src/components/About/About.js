@@ -31,25 +31,33 @@ const useStyles = theme => ({
 
         margin: "0 0 100px",
     },
+    header: {
+        textAlign: "center",
+        fontWeight: "700",
+        color: "#FFFFFF"
+    },
     previewButton: {
 
-        backgroundColor: "#cb8589",
+        backgroundColor: "#2C3E50",
+        color: "#FFFFFF"
     },
     tabs: {
 
-        backgroundColor: "#ffeed6",
-        borderRadius: '10px 10px 0 0'
+        backgroundColor: "#2C3E50",
+        borderRadius: '10px 10px 0 0',
+        borderColor: "#1ABC9C"
     },
     tab: {
         fontWeight: '900',
         borderRight: '2px  solid ',
+        backgroundColor: '#2C3E50'
 
     },
     slideContainer: {
         position: 'relative',
         display: 'flex',
         borderRadius: "0 0 10px 10px",
-
+        
 
     },
 
@@ -125,7 +133,8 @@ const animStyles = {
     },
     previewVisible: {
         opacity: '1.0',
-        backgroundColor: 'rgba(203,133,137,0.6)',
+        //backgroundColor: 'rgba(203,133,137,0.6)',
+        backgroundColor:"#1ABC9C",
         animationName: 'previewVisible'
 
     },
@@ -265,24 +274,23 @@ class About extends React.Component {
         //Combineclasses with the hover effect  : 
         var tabClass = classes.tab;
         tabClass += " hvr-pulse-shrink";
-
         return (<StyleRoot className={classes.container}>
 
             <div style={reveal ? animStyles.bounceInDown : animStyles.invisible}
                 className={classes.title}>
-                <Typography variant="h2" style={{ textAlign: "center", fontWeight: "700" }}>
+                <Typography variant="h1" className={classes.header}>
                     About me
                 </Typography>
             </div>
 
-            <Typography variant="h4" style={{ textAlign: "center", fontWeight: "700" }}>
+            <Typography variant="h2" className={classes.header}>
                 Skills :
             </Typography>
             <div id={index} style={{ display: 'flex', flexDirection: "column", margin: "75px 0 75px" }}>
                 <Tabs value={index} fullWidth onChange={this.handleChange} className={classes.tabs}>
-                    <Tab style={{ color: "#2b061e" }} className={tabClass} label={skills[0].title} ></Tab>
-                    <Tab style={{ color: "#875053" }} className={tabClass} label={skills[1].title} />
-                    <Tab style={{ color: "#d2bf55" }} className={tabClass} label={skills[2].title} />
+                    <Tab style={{ color: "#FFFFFF" }} className={tabClass} label={skills[0].title} ></Tab>
+                    <Tab style={{ color: "#FFFFFF" }} className={tabClass} label={skills[1].title} />
+                    <Tab style={{ color: "#FFFFFF" }} className={tabClass} label={skills[2].title} />
                 </Tabs>
 
                 <SwipeableViews enableMouseEvents
@@ -321,7 +329,7 @@ class About extends React.Component {
                 </SwipeableViews >
 
             </div>
-            <Typography variant="h4" style={{ textAlign: "center", fontWeight: "700" }}>
+            <Typography variant="h2" className={classes.header}>
                 Working experience :
             </Typography>
             <Grid container justify="center" className={classes.gridList} spacing={2} >

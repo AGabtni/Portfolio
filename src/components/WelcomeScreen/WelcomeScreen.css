@@ -1,50 +1,59 @@
 .nav-button {
-    box-shadow: inset 0 0 0 2px #14195f;
-    color: #14195f;
+    color: #FFFFFF;
     font-size: inherit;
     position: relative;
     vertical-align: middle;
     height: 100px;
+}
 
-    
-  }
-  .nav-button::before, button::after {
+.nav-button::before,
+button::after {
     content: '';
     position: absolute;
     width: 100%;
     height: 100%;
-  }
-  .draw {
+}
+
+.draw {
     transition: color 0.25s;
-  }
-  .draw::before, .draw::after {
+}
+
+.draw::before,
+.draw::after {
     border: 5px solid transparent;
     width: 0;
     height: 0;
-  }
-  .draw::before {
+}
+
+.draw::before {
     top: 0;
     left: 0;
-  }
-  .draw::after {
+}
+
+.draw::after {
     bottom: 0;
     right: 0;
-  }
-  .draw:hover {
-    color: #14195f;
-    background-color:#14195f ;
-  }
-  .draw:hover::before, .draw:hover::after {
+}
+
+.draw:hover {
+    color: #FFFFFF;
+    background-color: #FFFFFF;
+}
+
+.draw:hover::before,
+.draw:hover::after {
     width: 100%;
     height: 100%;
-  }
-  .draw:hover::before {
-    border-top-color: #14195f;
-    border-right-color: #14195f;
+}
+
+.draw:hover::before {
+    border-top-color: #FFFFFF;
+    border-right-color: #FFFFFF;
     transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
-  }
-  .draw:hover::after {
-    border-bottom-color: #14195f;
-    border-left-color: #14195f;
+}
+
+.draw:hover::after {
+    border-bottom-color: #FFFFFF;
+    border-left-color: #FFFFFF;
     transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s, height 0.25s ease-out 0.75s;
-  }
+}

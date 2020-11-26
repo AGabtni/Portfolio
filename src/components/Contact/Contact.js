@@ -9,6 +9,7 @@ const useStyles = theme => ({
         display: "flex",
         flexDirection: "column",
         marginTop: "100px",
+        backgroundColor: "#2C3E50",
     },
 
     wrapper: {
@@ -46,13 +47,17 @@ const useStyles = theme => ({
 
     inputField: {
         marginTop: "50px",
-        minWidth: "300px"
+        minWidth: "300px",
+        color : "#FFFFFF",
+        backgroundColor: "#2C3E50"
+
     },
 
     submitButton: {
         marginTop: "50px",
         minWidth: "150px",
-        backgroundColor : "#cb8589"
+        backgroundColor : "#1ABC9C",
+        color : "#FFFFFF"
 
     },
 
@@ -236,7 +241,7 @@ class Contact extends React.Component {
         return <StyleRoot className={classes.container}>
 
             <div style={reveal ? animStyles.bounceInDown : animStyles.bounceOutDown}>
-                <Typography variant="h2" style={{ textAlign: "center", fontWeight: "700" }}>
+                <Typography variant="h1" style={{ textAlign: "center", fontWeight: "700" }}>
                     Contact
                 </Typography>
             </div>
