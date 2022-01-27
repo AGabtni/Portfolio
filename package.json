@@ -27,7 +27,7 @@
     "react-swipeable-views": "^0.13.9",
     "scrollreveal": "^4.0.5",
     "smoothscroll-polyfill": "^0.4.4",
-    "three": "^0.110.0"
+    "three": "^0.137.0"
   },
   "scripts": {
     "start": "react-scripts start",
